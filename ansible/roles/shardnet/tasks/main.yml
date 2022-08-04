@@ -1,0 +1,5 @@
+---
+- name: Volume setup
+  import_tasks: volume-setup.yml
+  tags:
+    - volume-setup

@@ -1,0 +1,6 @@
+---
+- name: Setup shardnet
+  hosts: shardnet
+  become: yes
+  roles:
+    - shardnet

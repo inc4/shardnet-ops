@@ -1,0 +1,7 @@
+---
+device_name: /dev/nvme1n1
+device_number: 1
+pv_name: "{{ device_name }}p1"
+vg_name: vg_blockchain
+lv_name: lv_blockchain
+validator_hostname: validator-shardnet-dev

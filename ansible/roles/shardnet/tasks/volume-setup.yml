@@ -1,0 +1,49 @@
+---
+- name: Mount ebs volume
+  block:
+  - name: Install packages
+    apt:
+      update_cache: yes
+      cache_valid_time: 3600
+      pkg:
+        - lvm2
+        - parted
+
+  - name: Create a new primary partition for LVM
+    parted:
+      device: "{{ device_name }}"
+      number: "{{ device_number }}"
+      flags: [ lvm ]
+      state: present
+
+  - name: Create a volume group on top of {{ pv_name }}
+    lvg:
+      vg: "{{ vg_name }}"
+      pvs: "{{ pv_name }}"
+
+  - name: Create a logical volume the size of all remaining space in the volume group with disk {{ pv_name }}
+    lvol:
+      vg: "{{ vg_name }}"
+      lv: "{{ lv_name }}"
+      size: +100%FREE
+      pvs: "{{ pv_name }}"
+
+  - name: Create directory if not exist
+    file:
+      path: /opt/near
+      state: directory
+      mode: '0755'
+
+  - name: Format the ext4 filesystem
+    filesystem:
+      fstype: ext4
+      dev: /dev/{{ vg_name }}/{{ lv_name }}
+
+  - name: Mount logical volume
+    mount:
+      path: /opt/near
+      src: /dev/vg_blockchain/lv_blockchain
+      fstype: ext4
+      opts: rw
+      state: mounted
+  when: "'{{ validator_hostname }}' in inventory_hostname"
