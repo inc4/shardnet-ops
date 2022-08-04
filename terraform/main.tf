@@ -113,6 +113,6 @@ resource "aws_volume_attachment" "this" {
 
 resource "aws_ebs_volume" "this" {
   availability_zone = local.availability_zone
-  size              = 500
+  size              = var.aws_ebs_volume_validator_size
   tags              = local.tags
 }

@@ -12,3 +12,8 @@ variable "aws_ec2_monitoring_instance_type" {
   type    = string
   default = "t3.small"
 }
+
+variable "aws_ebs_volume_validator_size" {
+  type    = number
+  default = 500
+}
