@@ -2,7 +2,7 @@ locals {
   env               = "dev"
   network           = "shardnet"
   ami_id            = "ami-0a5b5c0ea66ec560d"
-  availability_zone = "eu-central-1a"
+  availability_zone = "eu-central-1c"
   tags = {
     Terraform   = "true"
     Environment = "dev"
