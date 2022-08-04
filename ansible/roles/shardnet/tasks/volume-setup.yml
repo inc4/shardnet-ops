@@ -46,4 +46,4 @@
       fstype: ext4
       opts: rw
       state: mounted
-  when: "'validator_hostname' in inventory_hostname"
+  when: "validator_hostname in inventory_hostname"
