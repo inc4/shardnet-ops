@@ -3,3 +3,8 @@
   import_tasks: volume-setup.yml
   tags:
     - volume-setup
+
+- name: Node setup
+  import_tasks: near-setup.yml
+  tags:
+    - near-setup

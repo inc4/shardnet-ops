@@ -1,0 +1,11 @@
+- name: Restart neard service
+  listen: restart neard service
+  systemd:
+    name: neard
+    state: restarted
+
+- name: Reload neard config
+  listen: reload neard config
+  systemd:
+    name: neard
+    state: reload

@@ -5,3 +5,7 @@ pv_name: "{{ device_name }}p1"
 vg_name: vg_blockchain
 lv_name: lv_blockchain
 validator_hostname: validator-shardnet-dev
+blockchain_data_dir: /root/.near
+version_tag: shardnet
+NEAR_ENV: shardnet
+

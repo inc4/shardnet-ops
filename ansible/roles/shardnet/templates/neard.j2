@@ -1,0 +1,19 @@
+[Unit]
+Description=NEARd Daemon Service
+
+[Service]
+Type=simple
+User=root
+#Group=near
+WorkingDirectory={{ blockchain_data_dir }}
+ExecStart=/usr/bin/neard run
+StandardOutput=/root/.near/neard.log
+StandardError=/root/.near/nearderror.log
+Restart=on-failure
+RestartSec=30
+KillSignal=SIGINT
+TimeoutStopSec=45
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
