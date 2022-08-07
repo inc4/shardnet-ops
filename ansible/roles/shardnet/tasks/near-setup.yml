@@ -31,6 +31,12 @@
     path: /root/.bashrc
     line: "export NEAR_ENV={{ NEAR_ENV }}"
 
+- name: Create directory for data
+  file:
+    path: /opt/near/data
+    state: directory
+    mode: 0644
+
 - name: Create blockchain data symlink
   file:
     src: /opt/near/data
@@ -65,7 +71,7 @@
         shell: "{{ item }}"
         with_items:
           - cd /opt/near/nearcore && ./target/release/neard --home ~/.near init --chain-id shardnet --download-genesis
-        register: build
+        register: init
 
       - name: Check near version
         command: /opt/near/nearcore/target/release/neard --version
