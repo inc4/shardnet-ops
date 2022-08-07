@@ -53,6 +53,7 @@
 
 - name: Install/Upgrade nearcore
   block:
+
     - name: Execute cargo build --release
       shell: "{{ item }}"
       with_items:
@@ -86,7 +87,7 @@
         mode: '777'
         remote_src: true
 
-  changed_when: git.changed
+  when: git.changed
 #  notify: restart neard service
 
 
