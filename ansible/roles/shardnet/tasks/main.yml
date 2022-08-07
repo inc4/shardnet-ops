@@ -1,10 +1,13 @@
 ---
 - name: Volume setup
   import_tasks: volume-setup.yml
+  when: "validator_hostname in inventory_hostname"
   tags:
     - volume-setup
 
 - name: Node setup
   import_tasks: near-setup.yml
+  when: "validator_hostname in inventory_hostname"
   tags:
     - near-setup
+  

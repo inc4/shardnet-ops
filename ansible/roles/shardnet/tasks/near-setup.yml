@@ -49,7 +49,7 @@
 - name: Install/Upgrade nearcore
   block:
 
-      - name: Fetch
+      - name: Fetch a github repository
         git:
           repo: 'https://github.com/nearprotocol/nearcore.git'
           dest: /root/nearcore
