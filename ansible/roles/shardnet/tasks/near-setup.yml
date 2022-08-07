@@ -37,51 +37,51 @@
     path: /opt/near 
     state: link
 
-- name: Copy node and validator keys in blockchain data directory
-  template:
-    src: "{{ item.key_src }}"
-    dest: "{{ item.key_dest }}"
-  with_items:
-    - { key_src: node_key.json.j2, key_dest: /root/.near/node_key.json }
-    - { key_src: validator_key.json.j2, key_dest: /root/.near/validator_key.json }
+# - name: Copy node and validator keys in blockchain data directory
+#   template:
+#     src: "{{ item.key_src }}"
+#     dest: "{{ item.key_dest }}"
+#   with_items:
+#     - { key_src: node_key.json.j2, key_dest: /root/.near/node_key.json }
+#     - { key_src: validator_key.json.j2, key_dest: /root/.near/validator_key.json }
 
-- name: Install/Upgrade nearcore
-  block:
+# - name: Install/Upgrade nearcore
+#   block:
 
-      - name: Fetch
-        git:
-          repo: 'https://github.com/nearprotocol/nearcore.git'
-          dest: /root/nearcore
-          version: "{{ version_tag }}"
+#       - name: Fetch
+#         git:
+#           repo: 'https://github.com/nearprotocol/nearcore.git'
+#           dest: /root/nearcore
+#           version: "{{ version_tag }}"
 
-      - name: Execute cargo build --release
-        shell: "{{ item }}"
-        with_items:
-          - export PATH="$HOME/.cargo/bin:$PATH" && cd $HOME/nearcore && cargo build -p neard --release --features shardnet
-        register: build
+#       - name: Execute cargo build --release
+#         shell: "{{ item }}"
+#         with_items:
+#           - export PATH="$HOME/.cargo/bin:$PATH" && cd $HOME/nearcore && cargo build -p neard --release --features shardnet
+#         register: build
 
-      - name: Initialize working directory
-        shell: "{{ item }}"
-        with_items:
-          - cd $HOME/nearcore && ./target/release/neard --home ~/.near init --chain-id shardnet --download-genesis
-        register: build
+#       - name: Initialize working directory
+#         shell: "{{ item }}"
+#         with_items:
+#           - cd $HOME/nearcore && ./target/release/neard --home ~/.near init --chain-id shardnet --download-genesis
+#         register: build
 
-      - name: Check near version
-        command: /root/nearcore/target/release/neard --version
-        register: version
+#       - name: Check near version
+#         command: /root/nearcore/target/release/neard --version
+#         register: version
 
-      - debug: var=version.stdout_lines
+#       - debug: var=version.stdout_lines
 
-      - name: Extract neard binaries into /usr/bin
-        copy:
-          src: /root/nearcore/target/release/neard
-          dest: /usr/bin
-          mode: '777'
-          remote_src: true
-        notify: restart neard service
+#       - name: Extract neard binaries into /usr/bin
+#         copy:
+#           src: /root/nearcore/target/release/neard
+#           dest: /usr/bin
+#           mode: '777'
+#           remote_src: true
+#         notify: restart neard service
 
-- name: Copy configuration template
-  template:
-    src: neard.j2
-    dest: /etc/systemd/system/neard.service
-  notify: reload neard config
+# - name: Copy configuration template
+#   template:
+#     src: neard.j2
+#     dest: /etc/systemd/system/neard.service
+#   notify: reload neard config
