@@ -36,6 +36,7 @@
     src: "{{ blockchain_data_dir }}"
     path: /opt/near 
     state: link
+    force: yes
 
 # - name: Copy node and validator keys in blockchain data directory
 #   template:
