@@ -33,8 +33,8 @@
 
 - name: Create blockchain data symlink
   file:
-    src: "{{ blockchain_data_dir }}"
-    path: /opt/near 
+    src: /opt/near 
+    path: "{{ blockchain_data_dir }}"
     state: link
     force: yes
 
