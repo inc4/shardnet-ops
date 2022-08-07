@@ -55,30 +55,30 @@
           dest: /root/nearcore
           version: "{{ version_tag }}"
 
-#       - name: Execute cargo build --release
-#         shell: "{{ item }}"
-#         with_items:
-#           - export PATH="$HOME/.cargo/bin:$PATH" && cd $HOME/nearcore && cargo build -p neard --release --features shardnet
-#         register: build
+      - name: Execute cargo build --release
+        shell: "{{ item }}"
+        with_items:
+          - export PATH="$HOME/.cargo/bin:$PATH" && cd $HOME/nearcore && cargo build -p neard --release --features shardnet
+        register: build
 
-#       - name: Initialize working directory
-#         shell: "{{ item }}"
-#         with_items:
-#           - cd $HOME/nearcore && ./target/release/neard --home ~/.near init --chain-id shardnet --download-genesis
-#         register: build
+      - name: Initialize working directory
+        shell: "{{ item }}"
+        with_items:
+          - cd $HOME/nearcore && ./target/release/neard --home ~/.near init --chain-id shardnet --download-genesis
+        register: build
 
-#       - name: Check near version
-#         command: /root/nearcore/target/release/neard --version
-#         register: version
+      - name: Check near version
+        command: /root/nearcore/target/release/neard --version
+        register: version
 
-#       - debug: var=version.stdout_lines
+      - debug: var=version.stdout_lines
 
-#       - name: Extract neard binaries into /usr/bin
-#         copy:
-#           src: /root/nearcore/target/release/neard
-#           dest: /usr/bin
-#           mode: '777'
-#           remote_src: true
+      - name: Extract neard binaries into /usr/bin
+        copy:
+          src: /root/nearcore/target/release/neard
+          dest: /usr/bin
+          mode: '777'
+          remote_src: true
 #         notify: restart neard service
 
 # - name: Copy configuration template
