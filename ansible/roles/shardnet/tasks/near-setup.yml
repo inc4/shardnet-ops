@@ -57,13 +57,17 @@
     - name: Execute cargo build --release
       shell: "{{ item }}"
       with_items:
-        - export PATH="$HOME/.cargo/bin:$PATH" && cd /opt/near/nearcore && cargo build -p neard --release --features shardnet
+        - export PATH="$HOME/.cargo/bin:$PATH" && cargo build -p neard --release --features shardnet
+      args:
+        chdir: /opt/near/nearcore/
       register: build
 
     - name: Initialize nearcore
       shell: "{{ item }}"
       with_items:
-        - cd /opt/near/nearcore && ./target/release/neard --home ~/.near init --chain-id shardnet --download-genesis
+        - ./target/release/neard --home ~/.near init --chain-id shardnet --download-genesis
+      args:
+        chdir: /opt/near/nearcore/
       register: init
 
     - name: Check near version
