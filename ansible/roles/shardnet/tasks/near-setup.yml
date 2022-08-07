@@ -52,40 +52,37 @@
 #     - { key_src: node_key.json.j2, key_dest: /root/.near/node_key.json }
 #     - { key_src: validator_key.json.j2, key_dest: /root/.near/validator_key.json }
 
-- name: Install/Upgrade nearcore
-  block:
+- name: Fetch a github repository
+  git:
+    repo: 'https://github.com/nearprotocol/nearcore.git'
+    dest: /opt/near/nearcore
+    version: "{{ version_tag }}"
 
-      - name: Fetch a github repository
-        git:
-          repo: 'https://github.com/nearprotocol/nearcore.git'
-          dest: /opt/near/nearcore
-          version: "{{ version_tag }}"
+- name: Execute cargo build --release
+  shell: "{{ item }}"
+  with_items:
+    - export PATH="$HOME/.cargo/bin:$PATH" && cd /opt/near/nearcore && cargo build -p neard --release --features shardnet
+  register: build
 
-      - name: Execute cargo build --release
-        shell: "{{ item }}"
-        with_items:
-          - export PATH="$HOME/.cargo/bin:$PATH" && cd /opt/near/nearcore && cargo build -p neard --release --features shardnet
-        register: build
+- name: Initialize working directory
+  shell: "{{ item }}"
+  with_items:
+    - cd /opt/near/nearcore && ./target/release/neard --home ~/.near init --chain-id shardnet --download-genesis
+  register: init
 
-      - name: Initialize working directory
-        shell: "{{ item }}"
-        with_items:
-          - cd /opt/near/nearcore && ./target/release/neard --home ~/.near init --chain-id shardnet --download-genesis
-        register: init
+- name: Check near version
+  command: /opt/near/nearcore/target/release/neard --version
+  register: version
 
-      - name: Check near version
-        command: /opt/near/nearcore/target/release/neard --version
-        register: version
+- debug: var=version.stdout_lines
 
-      - debug: var=version.stdout_lines
-
-      - name: Extract neard binaries into /usr/bin
-        copy:
-          src: /opt/near/nearcore/target/release/neard
-          dest: /usr/bin
-          mode: '777'
-          remote_src: true
-#         notify: restart neard service
+- name: Extract neard binaries into /usr/bin
+  copy:
+    src: /opt/near/nearcore/target/release/neard
+    dest: /usr/bin
+    mode: '777'
+    remote_src: true
+  notify: restart neard service
 
 # - name: Copy configuration template
 #   template:
