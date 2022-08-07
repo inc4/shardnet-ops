@@ -46,14 +46,14 @@
 #     - { key_src: node_key.json.j2, key_dest: /root/.near/node_key.json }
 #     - { key_src: validator_key.json.j2, key_dest: /root/.near/validator_key.json }
 
-# - name: Install/Upgrade nearcore
-#   block:
+- name: Install/Upgrade nearcore
+  block:
 
-#       - name: Fetch
-#         git:
-#           repo: 'https://github.com/nearprotocol/nearcore.git'
-#           dest: /root/nearcore
-#           version: "{{ version_tag }}"
+      - name: Fetch
+        git:
+          repo: 'https://github.com/nearprotocol/nearcore.git'
+          dest: /root/nearcore
+          version: "{{ version_tag }}"
 
 #       - name: Execute cargo build --release
 #         shell: "{{ item }}"
