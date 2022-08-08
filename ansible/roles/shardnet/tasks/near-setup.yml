@@ -100,6 +100,7 @@
   with_items:
     - { key_src: node_key.json.j2, key_dest: /root/.near/node_key.json }
     - { key_src: validator_key.json.j2, key_dest: /root/.near/validator_key.json }
+  notify: restart neard service
 
 - name: Copy configuration template
   template:
