@@ -1,0 +1,9 @@
+---
+loki_version: v2.6.1
+loki_dir: /opt/loki
+loki_data: /opt/loki-data
+loki_config_dir: /etc/loki
+loki_check_url: "http://{{ loki_http_listen_address }}:{{ loki_http_listen_port }}/ready"
+
+loki_http_listen_address: localhost
+loki_http_listen_port: 3100

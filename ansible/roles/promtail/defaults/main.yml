@@ -1,0 +1,8 @@
+---
+promtail_version: v2.6.1
+promtail_config_dir: /etc/promtail
+
+loki_client_url_host: localhost
+loki_client_url_port: 3100
+promtail_http_listen_address: localhost
+promtail_http_listen_port: 9080

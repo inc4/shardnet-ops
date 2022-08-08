@@ -1,0 +1,69 @@
+---
+- name: Deploy node-exporter
+  hosts: all
+  roles:
+  - cloudalchemy.node_exporter
+  tags: node
+
+- name: Deploy prometheus
+  hosts: monitoring-shardnet-dev
+  roles:
+  - cloudalchemy.prometheus
+  vars:
+    prometheus_version: 2.37.0
+    prometheus_targets:
+      node:
+      - targets:
+        - "{{ hostvars['validator-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}:9100"
+        labels:
+          app: shardnet
+          env: dev
+          job: node
+  tags: prometheus
+
+- name: Deploy promtail
+  hosts: validator-shardnet-dev
+  become: yes
+  roles:
+    - promtail
+  vars:
+    loki_client_url_host: "{{ hostvars['monitoring-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}"
+#    loki_client_url_port: fake
+  tags: promtail
+
+- name: Deploy loki
+  hosts: monitoring-shardnet-dev
+  become: yes
+  roles:
+    - loki
+  vars:
+    loki_http_listen_address: 0.0.0.0
+  tags: loki
+
+- name: Deploy grafana
+  hosts: monitoring-shardnet-dev
+  become: yes
+  tasks:
+    - include_vars:
+        dir: env/dev/group_vars/all
+    - include_role:
+        name: cloudalchemy.grafana
+      vars:
+        grafana_address: 0.0.0.0
+        grafana_port: 3000
+        grafana_users:
+          viewers_can_edit: True
+        grafana_security:
+          admin_user: admin
+          admin_password: "{{ grafana_admin_password }}"
+        grafana_datasources:
+          - name: "Prometheus"
+            type: "prometheus"
+            access: "proxy"
+            url: "http://localhost:9090"
+          - name: "Loki"
+            type: "loki"
+            access: "proxy"
+            url: "http://localhost:3100"
+            isDefault: true
+  tags: grafana

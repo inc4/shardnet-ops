@@ -1,0 +1,35 @@
+---
+- name: Create directories
+  file:
+    path: "{{ promtail_config_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Get release
+  get_url:
+    headers:
+      Accept: application/octet-stream
+    url: https://github.com/grafana/loki/releases/download/{{ promtail_version }}/promtail-linux-amd64.zip
+    dest: /tmp/promtail-linux-amd64.zip
+
+- name: Extract binaries into /usr/bin
+  unarchive:
+    src: /tmp/promtail-linux-amd64.zip
+    dest: /usr/bin
+    remote_src: yes
+
+- name: Copy promtail config file
+  template:
+    src: promtail-config.yml.j2
+    dest: "{{ promtail_config_dir }}/config.yaml"
+    mode: 0644
+  notify:
+    - Restart promtail
+
+- name: Copy promtail service
+  template:
+    src: promtail.service
+    dest: /etc/systemd/system/
+    mode: 0644
+  notify:
+    - Restart promtail

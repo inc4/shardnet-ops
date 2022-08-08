@@ -1,0 +1,10 @@
+[Unit]
+Description=Promtail service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/promtail-linux-amd64 -config.file={{ promtail_config_dir }}/config.yaml
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

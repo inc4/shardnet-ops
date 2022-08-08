@@ -18,3 +18,5 @@ node_secret_key: "{{ vault_node_secret_key }}"
 validator_account_id: "inc4.factory.shardnet.near"
 validator_public_key: "ed25519:BTyAWA3URzPJEg4YTsX97qxnoFtrf8qhZZ4aEPwTFsEi"
 validator_secret_key: "{{ vault_validator_secret_key }}"
+
+grafana_admin_password: "{{ vault_grafana_admin_password }}"

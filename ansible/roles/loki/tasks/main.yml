@@ -1,0 +1,38 @@
+---
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  loop:
+    - "{{ loki_dir }}"
+    - "{{ loki_data }}"
+
+- name: Get info about release
+  get_url:
+    headers:
+      Accept: application/octet-stream
+    url: https://github.com/grafana/loki/releases/download/{{ loki_version }}/loki-linux-amd64.zip
+    dest: /tmp/loki-linux-amd64.zip
+
+- name: Extract binaries into /usr/bin
+  unarchive:
+    src: /tmp/loki-linux-amd64.zip
+    dest: /usr/bin
+    remote_src: yes
+
+- name: Copy loki config file
+  template:
+    src: loki-config.yml.j2
+    dest: "{{ loki_config_dir }}/config.yaml"
+    mode: 0644
+  notify:
+    - Restart loki
+
+- name: Copy loki service
+  template:
+    src: loki.service
+    dest: /etc/systemd/system/
+    mode: 0644
+  notify:
+    - Restart loki
