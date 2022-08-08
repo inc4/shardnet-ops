@@ -4,16 +4,17 @@ device_number: 1
 pv_name: "{{ device_name }}p1"
 vg_name: vg_blockchain
 lv_name: lv_blockchain
+
 validator_hostname: validator-shardnet-dev
 blockchain_data_dir: /root/.near
 config_url: https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/config.json
 version_tag: shardnet
 NEAR_ENV: shardnet
 
-node_account_id: inc4
-node_public_key: 
-node_secret_key: 
+node_account_id: "inc4"
+node_public_key: "ed25519:2jc8gsPyN4oqkrbUTkUogcz1r1LTev7v5e8wpFQ8FZLG"
+node_secret_key: "{{ vault_node_secret_key }}"
 
-validator_account_id: inc4.factory.shardnet.near
-validator_public_key: 
-validator_secret_key: 
+validator_account_id: "inc4.factory.shardnet.near"
+validator_public_key: "ed25519:BTyAWA3URzPJEg4YTsX97qxnoFtrf8qhZZ4aEPwTFsEi"
+validator_secret_key: "{{ vault_validator_secret_key }}"

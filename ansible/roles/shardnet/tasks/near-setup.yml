@@ -82,14 +82,6 @@
         dest: "{{ blockchain_data_dir }}/config.json"
         force: yes
 
-# - name: Copy node and validator keys in blockchain data directory
-#   template:
-#     src: "{{ item.key_src }}"
-#     dest: "{{ item.key_dest }}"
-#   with_items:
-#     - { key_src: node_key.json.j2, key_dest: /root/.near/node_key.json }
-#     - { key_src: validator_key.json.j2, key_dest: /root/.near/validator_key.json }
-
     - name: Extract neard binaries into /usr/bin
       copy:
         src: /opt/near/nearcore/target/release/neard
@@ -98,10 +90,19 @@
         remote_src: true
 
   when: git.changed
-#  notify: restart neard service
+  notify: restart neard service
+
+- name: Copy node and validator keys in blockchain data directory
+  template:
+    src: "{{ item.key_src }}"
+    dest: "{{ item.key_dest }}"
+    mode: 0777
+  with_items:
+    - { key_src: node_key.json.j2, key_dest: /root/.near/node_key.json }
+    - { key_src: validator_key.json.j2, key_dest: /root/.near/validator_key.json }
 
 - name: Copy configuration template
   template:
     src: neard.j2
     dest: /etc/systemd/system/neard.service
-#  notify: reload neard config
+  notify: reload neard config
