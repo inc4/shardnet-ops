@@ -6,6 +6,7 @@ vg_name: vg_blockchain
 lv_name: lv_blockchain
 validator_hostname: validator-shardnet-dev
 blockchain_data_dir: /root/.near
+config_url: https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/config.json
 version_tag: shardnet
 NEAR_ENV: shardnet
 

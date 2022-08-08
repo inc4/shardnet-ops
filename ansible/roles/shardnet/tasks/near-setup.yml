@@ -76,6 +76,12 @@
 
     - debug: var=version.stdout_lines
 
+    - name: Download config
+      get_url: 
+        url: "{{ config_url }}"
+        dest: "{{ blockchain_data_dir }}/config.json"
+        force: yes
+
 # - name: Copy node and validator keys in blockchain data directory
 #   template:
 #     src: "{{ item.key_src }}"
@@ -88,16 +94,14 @@
       copy:
         src: /opt/near/nearcore/target/release/neard
         dest: /usr/bin
-        mode: '777'
+        mode: 0644
         remote_src: true
 
   when: git.changed
 #  notify: restart neard service
 
-
-
-# - name: Copy configuration template
-#   template:
-#     src: neard.j2
-#     dest: /etc/systemd/system/neard.service
-#   notify: reload neard config
+- name: Copy configuration template
+  template:
+    src: neard.j2
+    dest: /etc/systemd/system/neard.service
+#  notify: reload neard config
