@@ -94,7 +94,7 @@
       copy:
         src: /opt/near/nearcore/target/release/neard
         dest: /usr/bin
-        mode: 0644
+        mode: 0777
         remote_src: true
 
   when: git.changed
