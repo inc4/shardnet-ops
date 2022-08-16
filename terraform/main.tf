@@ -74,6 +74,13 @@ module "validator_security_group" {
       description = "Allow near port"
       cidr_blocks = "0.0.0.0/0"
     },
+    {
+      from_port   = 24567
+      to_port     = 24567
+      protocol    = "tcp"
+      description = "Allow node port"
+      cidr_blocks = "0.0.0.0/0"
+    },
   ]
 }
 
