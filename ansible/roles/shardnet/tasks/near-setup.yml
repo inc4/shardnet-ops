@@ -62,13 +62,13 @@
         chdir: /opt/near/nearcore/
       register: build
 
-    - name: Initialize nearcore
-      shell: "{{ item }}"
-      with_items:
-        - ./target/release/neard --home ~/.near init --chain-id shardnet --download-genesis
-      args:
-        chdir: /opt/near/nearcore/
-      register: init
+    # - name: Initialize nearcore
+    #   shell: "{{ item }}"
+    #   with_items:
+    #     - ./target/release/neard --home ~/.near init --chain-id shardnet --download-genesis
+    #   args:
+    #     chdir: /opt/near/nearcore/
+    #   register: init
 
     - name: Check near version
       command: /opt/near/nearcore/target/release/neard --version
@@ -76,11 +76,11 @@
 
     - debug: var=version.stdout_lines
 
-    - name: Download config
-      get_url: 
-        url: "{{ config_url }}"
-        dest: "{{ blockchain_data_dir }}/config.json"
-        force: yes
+    # - name: Download config
+    #   get_url: 
+    #     url: "{{ config_url }}"
+    #     dest: "{{ blockchain_data_dir }}/config.json"
+    #     force: yes
 
     - name: Extract neard binaries into /usr/bin
       copy:
@@ -92,18 +92,18 @@
   when: git.changed
   notify: restart neard service
 
-- name: Copy node and validator keys in blockchain data directory
-  template:
-    src: "{{ item.key_src }}"
-    dest: "{{ item.key_dest }}"
-    mode: 0777
-  with_items:
-    - { key_src: node_key.json.j2, key_dest: /root/.near/node_key.json }
-    - { key_src: validator_key.json.j2, key_dest: /root/.near/validator_key.json }
-  notify: restart neard service
+# - name: Copy node and validator keys in blockchain data directory
+#   template:
+#     src: "{{ item.key_src }}"
+#     dest: "{{ item.key_dest }}"
+#     mode: 0777
+#   with_items:
+#     - { key_src: node_key.json.j2, key_dest: /root/.near/node_key.json }
+#     - { key_src: validator_key.json.j2, key_dest: /root/.near/validator_key.json }
+#   notify: restart neard service
 
-- name: Copy configuration template
-  template:
-    src: neard.j2
-    dest: /etc/systemd/system/neard.service
-  notify: reload neard config
+# - name: Copy configuration template
+#   template:
+#     src: neard.j2
+#     dest: /etc/systemd/system/neard.service
+#   notify: reload neard config
