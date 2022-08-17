@@ -433,15 +433,19 @@ Check proposals
 ```
 near proposals | grep "inc4"
 ```
+
 ![img6](https://github.com/inc4/shardnet-ops/blob/c667b4a825c6987b68cd282d73ff5747b9d71cfd/challenges/img/img6.png)
 
 Generate key for pool
 ```
 near generate-key inc4.factory.shardnet.near
 ```
+
 ![img7](https://github.com/inc4/shardnet-ops/blob/c667b4a825c6987b68cd282d73ff5747b9d71cfd/challenges/img/img7.png)
 
 Check sync info
 ```
 curl -s http://127.0.0.1:3030/status | jq .sync_info
 ```
+
+![img8](https://github.com/inc4/shardnet-ops/blob/c667b4a825c6987b68cd282d73ff5747b9d71cfd/challenges/img/img8.png)
