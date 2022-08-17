@@ -13,9 +13,9 @@ AWS was used as a cloud provider.
 
 Basic costs:
 - EC instance m5.2xlarge (validator node) - 0.46$/h*24*30 = 331.2$
-- Volume size 500G = $0.149*500 = 74.5$
+- Volume size 500G = 0.119$*500 = 59.5$
 
-Total: **405.7**$*/m
+Total: **390.7**$*/m
 
 **For the region eu-central (Frankfurt)*
 
@@ -426,6 +426,7 @@ Examples:
 ## Additionally
 
 Instance check:
+
 ![img5](https://github.com/inc4/shardnet-ops/blob/c667b4a825c6987b68cd282d73ff5747b9d71cfd/challenges/img/img5.png)
 
 Check proposals
