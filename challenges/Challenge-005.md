@@ -12,15 +12,15 @@
 AWS was used as a cloud provider.
 
 Basic costs:
-- EC instance m5.2xlarge (validator node) - 0.46$/h*24*30 = 331.2$
-- Volume size 500G = 0.119$*500 = 59.5$
+- EC2 instance m5.2xlarge (validator node) - 0.46$/h * 24 * 30 = 331.2$
+- Volume size 500G = 0.119$ * 500 = 59.5$
 
 Total: **390.7**$*/m
 
 **For the region eu-central (Frankfurt)*
 
 Additional costs:
-- EC instance t3.small  (monitoring) - 0,024$/h*24*30 = 17,28$
+- EC2 instance t3.small  (monitoring) - 0,024$/h * 24 * 30 = 17,28$
 - Outgoing traffic 0.05$ per gigabyte with a volume of more than 150 GB*
 
 **100 GB per month for free*
@@ -40,7 +40,6 @@ Terraform creates the following elements:
 <details><summary>main.tf</summary>
 
 ```
-
 locals {
   env               = "dev"
   network           = "shardnet"
@@ -172,6 +171,27 @@ resource "aws_ebs_volume" "this" {
 </details>
 Instance tags are further used to create dynamic inventory.
 
+<details><summary>dynamic inventory</summary>
+
+```
+plugin: aws_ec2
+regions:
+  - eu-central-1
+filters:
+  tag:Environment: dev
+  tag:Network: shardnet
+hostnames:
+  - tag:Name
+compose:
+  ansible_user: "'admin'"
+  ansible_python_interpreter: "'/usr/bin/python3'"
+  ansible_host: public_dns_name
+  server_hostname: tags.Name
+groups:
+  shardnet: '"shardnet" in tags.Network'
+```
+</details>
+
 ## Setup and Run
 
 For automation and standardization, we decided to use Ansible.
@@ -195,8 +215,9 @@ Tasks are also categorized by tags:
     - near-setup
 ```
 
-volume-setup.yml - used to control the connected volume.
-near-setup.yml - main workflow for this role and it has the following steps:
+-> ```volume-setup.yml``` - used to control the connected volume.
+
+-> ```near-setup.yml``` - main workflow for this role and it has the following steps:
 1. Install packages
 2. Setup rust
 3. Setup node.js
@@ -205,14 +226,42 @@ near-setup.yml - main workflow for this role and it has the following steps:
 6. Create directory for data
 7. Create blockchain data symlink
 8. Fetch a github repository
-  - Execute cargo build --release
-  - Initialize nearcore
-  - Download config
-  - Extract neard binaries into /usr/bin
+    - Execute cargo build --release
+    - Initialize nearcore
+    - Download config
+    - Extract neard binaries into /usr/bin
 9. Copy node and validator keys in blockchain data directory
 10. Copy configuration template
 
 You can find more details about these roles here: [[ansible](https://github.com/inc4/shardnet-ops/tree/main/ansible)]
+
+The environment variables for this role are located in the path ``ansible/env/dev/group_vars/all/vars.yml``
+
+vars.yml
+```
+---
+device_name: /dev/nvme1n1
+device_number: 1
+pv_name: "{{ device_name }}p1"
+vg_name: vg_blockchain
+lv_name: lv_blockchain
+
+validator_hostname: 
+blockchain_data_dir: /root/.near
+config_url: https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/config.json
+version_tag: f7f0cb22e85e9c781a9c71df7dcb17f507ff6fde
+NEAR_ENV: shardnet
+
+node_account_id: "inc4"
+node_public_key: "ed25519:2jc8gsPyN4oqkrbUTkUogcz1r1LTev7v5e8wpFQ8FZLG"
+node_secret_key: "{{ vault_node_secret_key }}"
+
+validator_account_id: "inc4.factory.shardnet.near"
+validator_public_key: "ed25519:BTyAWA3URzPJEg4YTsX97qxnoFtrf8qhZZ4aEPwTFsEi"
+validator_secret_key: "{{ vault_validator_secret_key }}"
+
+grafana_admin_password: "{{ vault_grafana_admin_password }}"
+```
 
 ## Mounting a staking pool
 At this stage in order to run the following commands you first need to run:
@@ -221,7 +270,7 @@ At this stage in order to run the following commands you first need to run:
 
 -> ```near login```
 
-And pass the authorization procedure by clicking on the link in the browser. 
+Then pass the authorization procedure by clicking on the link in the browser. 
 
 ![img1](https://github.com/inc4/shardnet-ops/blob/be5420d6b3a3b93c7c076d7a5cdcf018611c1f8e/challenges/img/img1.png)
 
@@ -258,7 +307,6 @@ Deposit and Stake NEAR:
 
 ```
 near call inc4.factory.shardnet.near deposit_and_stake --amount 15 --accountId inc4.shardnet.near --gas=300000000000000
-
 ```
 
 Ping: 
@@ -331,7 +379,7 @@ View call: inc4.factory.shardnet.near.get_accounts({"from_index": 0, "limit": 10
 
 ## Monitoring
 
-For monitoring we use node-exporter+prometheus, and for logs - promtail+lokki.
+For monitoring we use node-exporter+prometheus, and for logs - promtail+loki.
 Grafana makes it easy to keep track of all this in one place.
 
 <details><summary>playbook - monitoring.yml</summary>
@@ -415,9 +463,9 @@ You can view logs and dashboards at the following link: [18.156.162.14:3000](htt
 username: demo_user 
 password: demo_user
 ```
-Dashboard IDs to import:
+Dashboard IDs for import:
 - 6126 - Node exporter 
-- 13639 - Lokki logs
+- 13639 - Loki logs
 
 Examples:
 ![img3](https://github.com/inc4/shardnet-ops/blob/76131d4b5840ec917523b93f3c92609ed975300e/challenges/img/img3.png)
@@ -427,7 +475,9 @@ Examples:
 
 Instance check:
 
+
 ![img5](https://github.com/inc4/shardnet-ops/blob/c667b4a825c6987b68cd282d73ff5747b9d71cfd/challenges/img/img5.png)
+
 
 Check proposals
 ```
