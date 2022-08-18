@@ -8,3 +8,8 @@
   import_tasks: near-setup.yml
   tags:
     - near-setup
+
+- name: Node ping
+  import_tasks: near-ping.yml
+  tags:
+    - near-ping

@@ -1,0 +1,22 @@
+---
+- name: Create directory for logs
+  file:
+    path: "{{ logs_dir }}"
+    state: directory
+    mode: 0644
+
+- name: Copy cronjob template
+  template:
+    src: ping.j2
+    dest: /opt/near/ping.sh
+    mode: 0755
+
+- name: Ping to network automatically
+  cron:
+    name: "Run near ping"
+    user: "root"
+    weekday: "*"
+    minute: "5"
+    hour: "*"
+    job: "sh /opt/near/ping.sh"
+    state: present
