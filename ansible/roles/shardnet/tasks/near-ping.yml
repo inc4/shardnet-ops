@@ -16,7 +16,7 @@
     name: "Run near ping"
     user: "root"
     weekday: "*"
-    minute: "5"
+    minute: "*/5"
     hour: "*"
     job: "sh /opt/near/ping.sh"
     state: present
