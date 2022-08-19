@@ -30,7 +30,7 @@ Ansible workflow for this task:
     state: present
 ```
 
-Cron job template
+Cron job template:
 
 [/templates/ping.j2](https://github.com/inc4/shardnet-ops/blob/main/ansible/roles/shardnet/templates/ping.j2)
 ```
@@ -50,7 +50,7 @@ near validators current | grep $POOLID >> $LOGS/all.log
 near validators next | grep $POOLID >> $LOGS/all.log
 ```
 
-### Results:
+### Results
 
 List crontab to see it is running:
 
