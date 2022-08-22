@@ -17,6 +17,6 @@
     user: "root"
     weekday: "*"
     minute: "0"
-    hour: "*/2"
+    hour: "*/1"
     job: "sh /opt/near/ping.sh"
     state: present
