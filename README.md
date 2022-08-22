@@ -15,7 +15,10 @@ This repository displays the process of completing challenges in Stake Wars: Epi
 |007 |Data Science for Staking| :large_blue_circle: In progress |  |
 |008 |Split revenue for staking rewards| :large_blue_circle: In progress | |
 |009 |Challenge for shardnet uptime >70% && open the debug port| :large_blue_circle: In progress |  |
-|010 |This challenge automatically delegates ShardNet NEAR to pools with uptime >= 60%| :white_circle: Not started yet | |
+|010 |This challenge automatically delegates ShardNet NEAR to pools with uptime >= 60%| :large_blue_circle: In progress | |
 |011 |Staking Farm 2.0| :white_circle: Not started yet |  |
 |012 | ???| :white_circle: Not started yet |  |
 |013 |In this challenge, participants will learn how to update their node, migrate keys, and set up a BACKUP node.| :white_circle: Not started yet | |
+|014 | Draft | :white_circle: Not started yet | |
+|015 | Draft | :white_circle: Not started yet | |
+
