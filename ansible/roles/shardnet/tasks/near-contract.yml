@@ -10,7 +10,7 @@
   with_items:
     - export PATH="$HOME/.cargo/bin:$PATH" && rustup target add wasm32-unknown-unknown
   register: rust_target
-  changed_when: rust_target.stderr !="info/:/ component 'rust-std' for target 'wasm32-unknown-unknown' is up to date"
+  changed_when: true
 
 # - name: Clone a github repository
 #   git:
