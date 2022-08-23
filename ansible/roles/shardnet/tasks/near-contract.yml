@@ -26,6 +26,6 @@
       with_items:
         - export PATH="$HOME/.cargo/bin:$PATH" && cargo build --target wasm32-unknown-unknown --release
       args:
-        chdir: "{{ contract_dir }}/near-staking-pool-owner/contract"
+        chdir: "{{ contract_dir }}/contract"
 
   when: contract.changed
