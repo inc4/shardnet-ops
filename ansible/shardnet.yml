@@ -6,7 +6,5 @@
     - name: Include env vars
       include_vars:
         dir: env/dev/group_vars/all
-
-    - name: Setup shardnet 
-      include_role:
-        name: shardnet
+  roles:
+    - shardnet
