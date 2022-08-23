@@ -10,7 +10,6 @@
   with_items:
     - rustup target add wasm32-unknown-unknown
   register: rust_target
-  debug: rust_target
 #  changed_when: target_add.stdout !="info':' component 'rust-std' for target 'wasm32-unknown-unknown' is up to date"
 
 # - name: Clone a github repository
