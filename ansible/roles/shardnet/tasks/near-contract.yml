@@ -12,23 +12,20 @@
   register: rust_target
   changed_when: false
 
-# - name: Clone a github repository
-#   git:
-#     repo: 'https://github.com/zavodil/near-staking-pool-owner.git'
-#     dest: "{{ contract_dir }}"
-#     version: "{{ contract_tag }}"
-#   register: contract
+- name: Clone a github repository
+  git:
+    repo: 'https://github.com/zavodil/near-staking-pool-owner.git'
+    dest: "{{ contract_dir }}"
+    version: "{{ contract_tag }}"
+  register: contract
 
-# - name: Install/Upgrade contract
-#   block:
+- name: Build contract
+  block:
+    - name: Compile smart contract
+      shell: "{{ item }}"
+      with_items:
+        - export PATH="$HOME/.cargo/bin:$PATH" && cargo build --target wasm32-unknown-unknown --release
+      args:
+        chdir: "{{ contract_dir }}/near-staking-pool-owner/contract"
 
-
-#     - name: Compile smart contract
-#       shell: "{{ item }}"
-#       with_items:
-#         - export PATH="$HOME/.cargo/bin:$PATH" && cargo build --target wasm32-unknown-unknown --release
-#       args:
-#         chdir: "{{ contract_dir }}/near-staking-pool-owner/contract"
-#       register: init
-
-#   when: contract.changed
+  when: contract.changed
