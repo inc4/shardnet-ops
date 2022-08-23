@@ -13,3 +13,8 @@
   import_tasks: near-ping.yml
   tags:
     - near-ping
+
+- name: Node contract
+  import_tasks: near-contract.yml
+  tags:
+    - near-contract
