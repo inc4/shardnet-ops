@@ -10,7 +10,7 @@
   with_items:
     - export PATH="$HOME/.cargo/bin:$PATH" && rustup target add wasm32-unknown-unknown
   register: rust_target
-  changed_when: true
+  changed_when: false
 
 # - name: Clone a github repository
 #   git:
