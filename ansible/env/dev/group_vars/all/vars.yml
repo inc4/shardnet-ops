@@ -8,8 +8,10 @@ lv_name: lv_blockchain
 validator_hostname: validator-shardnet-dev
 blockchain_data_dir: /root/.near
 logs_dir: /opt/near/logs
+contract_dir: /opt/near/contract
 config_url: https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/config.json
 version_tag: f7f0cb22e85e9c781a9c71df7dcb17f507ff6fde
+contract_tag: 9192c05baf46d4ea7724daf09186ca61395fb27f
 NEAR_ENV: shardnet
 
 node_account_id: "inc4"

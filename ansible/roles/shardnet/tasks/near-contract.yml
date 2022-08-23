@@ -1,0 +1,41 @@
+---
+- name: Create directory for contract
+  file:
+    path: "{{ contract_dir }}"
+    state: directory
+    mode: 0644
+
+- name: Add the wasm32-unknown-unknown toolchain
+  shell: "{{ item }}"
+  with_items:
+    - rustup target add wasm32-unknown-unknown
+  register: rust_target
+  debug: rust_target
+#  changed_when: target_add.stdout !="info':' component 'rust-std' for target 'wasm32-unknown-unknown' is up to date"
+
+# - name: Clone a github repository
+#   git:
+#     repo: 'https://github.com/zavodil/near-staking-pool-owner.git'
+#     dest: "{{ contract_dir }}"
+#     version: "{{ contract_tag }}"
+#   register: contract
+
+# - name: Install/Upgrade contract
+#   block:
+
+#     - name: Add the wasm32-unknown-unknown toolchain
+#       shell: "{{ item }}"
+#       with_items:
+#         - rustup target add wasm32-unknown-unknown
+#       register: target_add
+#       changed_when: target_add.stdout !="info':' component 'rust-std' for target 'wasm32-unknown-unknown' is up to date"
+
+#     - name: Compile smart contract
+#       shell: "{{ item }}"
+#       with_items:
+#         - cargo build --target wasm32-unknown-unknown --release
+#       args:
+#         chdir: "{{ contract_dir }}/near-staking-pool-owner/contract"
+#       register: init
+
+#   when: contract.changed
