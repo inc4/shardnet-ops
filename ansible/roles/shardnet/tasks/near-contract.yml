@@ -5,7 +5,7 @@
     state: directory
     mode: 0644
 
-- name: Add the wasm32-unknown-unknown toolchain
+- name: Add wasm32 toolchain
   shell: "{{ item }}"
   with_items:
     - rustup target add wasm32-unknown-unknown
