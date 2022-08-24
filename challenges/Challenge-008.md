@@ -152,7 +152,9 @@ https://explorer.shardnet.near.org/transactions/C9NrbsYEjSKNMZt2NPBUtQUf57vB8pts
 ```
 </details>
 
-**Challenge URL** : [https://explorer.shardnet.near.org/transactions/C9NrbsYEjSKNMZt2NPBUtQUf57vB8pts6HFtRZU1hUjk](https://explorer.shardnet.near.org/transactions/C9NrbsYEjSKNMZt2NPBUtQUf57vB8pts6HFtRZU1hUjk)
+**Challenge URL**: 
 
-**Challenge image** :
+[https://explorer.shardnet.near.org/transactions/C9NrbsYEjSKNMZt2NPBUtQUf57vB8pts6HFtRZU1hUjk](https://explorer.shardnet.near.org/transactions/C9NrbsYEjSKNMZt2NPBUtQUf57vB8pts6HFtRZU1hUjk)
+
+**Challenge image**:
 ![img14](https://github.com/inc4/shardnet-ops/blob/596181382898b9ec16b1fcc4f3f8bdb8045480e7/challenges/img/img14.png)
