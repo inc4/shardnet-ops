@@ -2,9 +2,14 @@
 - name: Configure shardnet
   hosts: validator-shardnet-dev
   become: yes
-  pre_tasks:
+  tasks:
     - name: Include env vars
       include_vars:
         dir: env/dev/group_vars/all
+      tags:
+        - volume-setup
+        - near-setup
+        - near-ping
+        - near-contract
   roles:
     - shardnet
