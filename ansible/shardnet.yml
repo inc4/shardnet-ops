@@ -6,10 +6,6 @@
     - name: Include env vars
       include_vars:
         dir: env/dev/group_vars/all
-      tags:
-        - volume-setup
-        - near-setup
-        - near-ping
-        - near-contract
-  roles:
-    - shardnet
+    - name: Setup shardnet 
+      include_role:
+        name: shardnet
