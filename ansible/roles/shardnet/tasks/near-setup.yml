@@ -62,13 +62,13 @@
         chdir: /opt/near/nearcore/
       register: build
 
-    - name: Initialize nearcore
-      shell: "{{ item }}"
-      with_items:
-        - ./target/release/neard --home ~/.near init --chain-id shardnet --download-genesis
-      args:
-        chdir: /opt/near/nearcore/
-      register: init
+    # - name: Initialize nearcore
+    #   shell: "{{ item }}"
+    #   with_items:
+    #     - ./target/release/neard --home ~/.near init --chain-id shardnet --download-genesis
+    #   args:
+    #     chdir: /opt/near/nearcore/
+    #   register: init
 
     - name: Check near version
       command: /opt/near/nearcore/target/release/neard --version
@@ -76,11 +76,11 @@
 
     - debug: var=version.stdout_lines
 
-    - name: Download config
-      get_url: 
-        url: "{{ config_url }}"
-        dest: "{{ blockchain_data_dir }}/config.json"
-        force: yes
+    # - name: Download config
+    #   get_url: 
+    #     url: "{{ config_url }}"
+    #     dest: "{{ blockchain_data_dir }}/config.json"
+    #     force: yes
 
     - name: Extract neard binaries into /usr/bin
       copy:
