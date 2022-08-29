@@ -4,7 +4,7 @@
   become: yes
   pre_tasks:
     - include_vars:
-      file: env/dev/group_vars/all/
+        file: env/dev/group_vars/all/
 
   roles:
     - shardnet
