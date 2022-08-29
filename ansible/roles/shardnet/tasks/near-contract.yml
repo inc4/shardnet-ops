@@ -17,6 +17,7 @@
     repo: 'https://github.com/zavodil/near-staking-pool-owner.git'
     dest: "{{ contract_dir }}"
     version: "{{ contract_tag }}"
+    force: true
   register: contract
 
 - name: Build contract
