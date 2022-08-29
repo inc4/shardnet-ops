@@ -42,13 +42,14 @@
     src: /opt/near/data
     path: "{{ blockchain_data_dir }}"
     state: link
-    force: yes
+    force: true
 
 - name: Fetch a github repository
   git:
     repo: 'https://github.com/nearprotocol/nearcore.git'
     dest: /opt/near/nearcore
     version: "{{ version_tag }}"
+    force: true
   register: git
 
 - name: Install/Upgrade nearcore
@@ -82,15 +83,15 @@
     #     dest: "{{ blockchain_data_dir }}/config.json"
     #     force: yes
 
-    - name: Extract neard binaries into /usr/bin
-      copy:
-        src: /opt/near/nearcore/target/release/neard
-        dest: /usr/bin
-        mode: 0777
-        remote_src: true
+    # - name: Extract neard binaries into /usr/bin
+    #   copy:
+    #     src: /opt/near/nearcore/target/release/neard
+    #     dest: /usr/bin
+    #     mode: 0777
+    #     remote_src: true
 
   when: git.changed
-  notify: restart neard service
+  # notify: restart neard service
 
 - name: Copy node and validator keys in blockchain data directory
   template:
