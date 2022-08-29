@@ -3,11 +3,5 @@
   hosts: validator-shardnet-dev
   become: yes
   vars_files: env/dev/group_vars/all/vars.yml
-
-  tasks:
-#    - name: Include env vars
-#      include_vars:
-#        dir: env/dev/group_vars/all
-    - name: Setup shardnet 
-      include_role:
-        name: shardnet
+  roles:
+    - shardnet
