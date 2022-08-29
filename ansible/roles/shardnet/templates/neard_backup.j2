@@ -1,0 +1,19 @@
+[Unit]
+Description=NEARd Backup Daemon Service
+
+[Service]
+Type=simple
+User=root
+#Group=near
+WorkingDirectory={{ backup_dir }}
+ExecStart=/usr/bin/neard_backup run
+StandardOutput={{ backup_dir }}neard.log
+StandardError={{ backup_dir }}nearderror.log
+Restart=on-failure
+RestartSec=30
+KillSignal=SIGINT
+TimeoutStopSec=45
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target

@@ -17,3 +17,6 @@ node_secret_key:
 validator_account_id: inc4.factory.shardnet.near
 validator_public_key: 
 validator_secret_key: 
+
+backup_dir: /opt/near/backup
+backup_data_dir: "{{ backup_dir }}/data"

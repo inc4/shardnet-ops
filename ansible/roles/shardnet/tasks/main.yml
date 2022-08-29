@@ -18,3 +18,8 @@
   import_tasks: near-contract.yml
   tags:
     - near-contract
+
+- name: Create backup node
+  import_tasks: near-setup-backup.yml
+  tags:
+    - near-setup-backup

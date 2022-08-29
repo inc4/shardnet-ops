@@ -1,0 +1,71 @@
+---
+- name: Create backup directory if not exist
+  file:
+    path: "{{ backup_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Save validator keys
+  copy:
+    src: /root/.near/{{item}}
+    dest: "{{ backup_dir }}/validator/keys"
+    mode: 0754
+  with_items:
+    ["node_key.json","validator_key.json"]
+
+- name: Fetch a github repository
+  git:
+    repo: 'https://github.com/nearprotocol/nearcore.git'
+    dest: "{{ backup_dir }}/repository"
+    version: "{{ version_tag }}"
+    force: true
+  register: git_backup
+
+- name: Install/Upgrade nearcore
+  block:
+
+    - name: Execute cargo build --release
+      shell: "{{ item }}"
+      with_items:
+        - export PATH="$HOME/.cargo/bin:$PATH" && make shardnet-release
+      args:
+        chdir: "{{ backup_dir }}/repository"
+
+    - name: Initialize nearcore
+      shell: "{{ item }}"
+      with_items:
+        - ./target/release/neard --home {{ backup_dir }} init --chain-id shardnet --download-genesis
+      args:
+        chdir: "{{ backup_dir }}/repository"
+      register: init
+
+    - name: Check near version
+      command: "{{ backup_dir }}/repository/target/release/neard --version"
+      register: version
+
+    - debug: var=version.stdout_lines
+
+    # - name: Download config
+    #   get_url: 
+    #     url: "{{ config_url }}"
+    #     dest: "{{ blockchain_data_dir }}/config.json"
+    #     force: yes
+
+    - name: Extract neard binaries into /usr/bin
+      copy:
+        src: "{{ backup_dir }}/repository/target/release/neard"
+        dest: /usr/bin/neard_backup
+        mode: 0777
+        remote_src: true
+
+  when: git_backup.changed
+
+# - name: Create temporary files
+#   template:
+#     src: "{{ item.file_src }}"
+#     dest: "{{ item.file_dest }}"
+#     mode: 0754
+#   with_items:
+#     - { key_src: node_key_backup.j2, key_dest: "{{ backup_dir }}/node_key.json" }
+#     - { key_src: validator_key_backup.j2, key_dest: "{{ backup_dir }}/validator_key.json" }
+#     - { key_src: config_backup.j2, key_dest: "{{ backup_dir }}/config.json" }

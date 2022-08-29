@@ -23,3 +23,6 @@ validator_public_key: "ed25519:BTyAWA3URzPJEg4YTsX97qxnoFtrf8qhZZ4aEPwTFsEi"
 validator_secret_key: "{{ vault_validator_secret_key }}"
 
 grafana_admin_password: "{{ vault_grafana_admin_password }}"
+
+backup_dir: /opt/near/backup
+backup_data_dir: "{{ backup_dir }}/data"
