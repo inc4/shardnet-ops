@@ -73,9 +73,9 @@
     dest: "{{ item.file_dest }}"
     mode: 0755
   with_items:
-    - { key_src: node_key.j2, key_dest: "{{ backup_dir }}/node_key.json" }
-    - { key_src: validator_key.j2, key_dest: "{{ backup_dir }}/validator_key.json" }
-    - { key_src: config.j2, key_dest: "{{ backup_dir }}/config.json" }
+    - { file_src: node_key.j2, file_dest: "{{ backup_dir }}/node_key.json" }
+    - { file_src: validator_key.j2, file_dest: "{{ backup_dir }}/validator_key.json" }
+    - { file_src: config.j2, file_dest: "{{ backup_dir }}/config.json" }
   vars:
     node_id: "{{ node_backup_account_id }}"
     node_public: "{{ node_backup_public_key }}"
