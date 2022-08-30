@@ -91,7 +91,7 @@
     #     remote_src: true
 
   when: git.changed
-  # notify: restart neard service
+  notify: restart neard service
 
 - name: Copy node and validator keys in blockchain data directory
   template:

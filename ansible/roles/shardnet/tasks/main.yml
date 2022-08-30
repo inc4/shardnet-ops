@@ -21,13 +21,5 @@
 
 - name: Create backup node
   import_tasks: near-setup-backup.yml
-  vars:
-    node_id: "{{ node_backup_account_id }}"
-    node_public: "{{ node_backup_public_key }}"
-    node_secret: "{{ node_backup_secret_key }}"
-    validator_id: "{{ validator_backup_account_id }}"
-    validator_public: "{{ validator_backup_public_key }}"
-    validator_secret: "{{ validator_backup_secret_key }}"
-    config_key: "{{ node_backup_public_key }}"
   tags:
     - near-setup-backup

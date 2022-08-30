@@ -9,4 +9,3 @@
     - name: Setup shardnet 
       include_role:
         name: shardnet
-#      tags: near-setup-backup
