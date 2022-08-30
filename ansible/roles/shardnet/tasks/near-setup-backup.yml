@@ -5,6 +5,12 @@
     state: directory
     mode: 0755
 
+- name: Create directory for validator keys
+  file:
+    path: "{{ backup_dir }}"
+    state: directory
+    mode: 0755
+
 - name: Save validator keys
   copy:
     src: /root/.near/{{ item }}
