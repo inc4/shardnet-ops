@@ -26,3 +26,10 @@ grafana_admin_password: "{{ vault_grafana_admin_password }}"
 
 backup_dir: /opt/near/backup
 backup_data_dir: "{{ backup_dir }}/data"
+node_backup_account_id: inc4_backup
+node_backup_public_key: "ed25519:99hdWfkGTjEysZZq169xUrYPNjGo16oCEDhPjQPcA7Da"
+node_backup_secret_key: "{{ vault_node_backup_secret_key }}"
+
+validator_backup_account_id: inc4_backup.factory.shardnet.near
+validator_backup_public_key: "ed25519:ERupTSXgnyMwKDXyzFS8cktG9UiM7LAnEHFD8hRE94Nb"
+validator_backup_secret_key: "{{ vault_validator_backup_secret_key }}"

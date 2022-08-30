@@ -12,7 +12,6 @@ NEAR_ENV: shardnet
 
 node_account_id: inc4
 node_public_key: 
-node_secret_key: 
 
 validator_account_id: inc4.factory.shardnet.near
 validator_public_key: 
@@ -20,3 +19,9 @@ validator_secret_key:
 
 backup_dir: /opt/near/backup
 backup_data_dir: "{{ backup_dir }}/data"
+node_backup_account_id: inc4_backup
+node_backup_public_key: 
+node_backup_secret_key:
+validator_backup_account_id: inc4_backup.factory.shardnet.near
+validator_backup_public_key: 
+validator_backup_secret_key: 
