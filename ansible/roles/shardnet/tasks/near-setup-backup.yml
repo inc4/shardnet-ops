@@ -15,7 +15,7 @@
   copy:
     src: /root/.near/{{ item }}
     dest: "{{ backup_dir }}/validator/keys/{{ item }}"
-    mode: 0777
+    mode: 0755
     remote_src: yes
   with_items:
     ["node_key.json","validator_key.json"]
@@ -62,17 +62,24 @@
       copy:
         src: "{{ backup_dir }}/repository/target/release/neard"
         dest: /usr/bin/neard_backup
-        mode: 0777
+        mode: 0755
         remote_src: true
 
   when: git_backup.changed
 
-# - name: Create temporary files
-#   template:
-#     src: "{{ item.file_src }}"
-#     dest: "{{ item.file_dest }}"
-#     mode: 0754
-#   with_items:
-#     - { key_src: node_key_backup.j2, key_dest: "{{ backup_dir }}/node_key.json" }
-#     - { key_src: validator_key_backup.j2, key_dest: "{{ backup_dir }}/validator_key.json" }
-#     - { key_src: config_backup.j2, key_dest: "{{ backup_dir }}/config.json" }
+- name: Create temporary files
+  template:
+    src: "{{ item.file_src }}"
+    dest: "{{ item.file_dest }}"
+    mode: 0755
+  with_items:
+    - { key_src: node_key.j2, key_dest: "{{ backup_dir }}/node_key.json" }
+    - { key_src: validator_key.j2, key_dest: "{{ backup_dir }}/validator_key.json" }
+    - { key_src: config.j2, key_dest: "{{ backup_dir }}/config.json" }
+  vars:
+    node_id: "{{ node_backup_account_id }}"
+    node_public: "{{ node_backup_public_key }}"
+    node_secret: "{{ node_backup_secret_key }}"
+    validator_id: "{{ validator_backup_account_id }}"
+    validator_public: "{{ validator_backup_public_key }}"
+    validator_secret: "{{ validator_backup_secret_key }}"
