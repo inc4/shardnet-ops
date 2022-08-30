@@ -7,10 +7,9 @@
 
 - name: Save validator keys
   copy:
-    src: /root/.near/{{item}}
-    dest: "{{ backup_dir }}/validator/keys"
+    src: /root/.near/{{ item }}
+    dest: "{{ backup_dir }}/validator/keys/{{ item }}"
     mode: 0754
-  become: true
   with_items:
     ["node_key.json","validator_key.json"]
 
