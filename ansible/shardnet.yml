@@ -7,6 +7,6 @@
         dir: env/dev/group_vars/all
   tasks:
     - name: Setup shardnet 
-      import_role:
+      include_role:
         name: shardnet
-      tags: near-setup-backup
+#      tags: near-setup-backup
