@@ -20,7 +20,7 @@
     - near-contract
 
 - name: Create backup node
-  include_tasks: near-setup-backup.yml
+  import_tasks: near-setup-backup.yml
   vars:
     node_id: "{{ node_backup_account_id }}"
     node_public: "{{ node_backup_public_key }}"
