@@ -7,7 +7,7 @@
 
 - name: Create directory for validator keys
   file:
-    path: "{{ backup_dir }}"
+    path: "{{ backup_dir }}/validator/keys"
     state: directory
     mode: 0755
 
