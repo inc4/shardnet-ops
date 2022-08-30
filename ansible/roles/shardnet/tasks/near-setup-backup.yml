@@ -83,3 +83,4 @@
     validator_id: "{{ validator_backup_account_id }}"
     validator_public: "{{ validator_backup_public_key }}"
     validator_secret: "{{ validator_backup_secret_key }}"
+    config_key: "{{ node_backup_public_key }}"
