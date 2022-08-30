@@ -9,7 +9,8 @@
   copy:
     src: /root/.near/{{ item }}
     dest: "{{ backup_dir }}/validator/keys/{{ item }}"
-    mode: 0754
+    mode: 0777
+    remote_src: yes
   with_items:
     ["node_key.json","validator_key.json"]
 
