@@ -2,11 +2,10 @@
 - name: Configure shardnet
   hosts: validator-shardnet-dev
   become: yes 
-  tasks:
-    - name: Include env vars
-      include_vars:
+  pre_tasks:
+    - include_vars:
         dir: env/dev/group_vars/all
-
+  tasks:
     - name: Setup shardnet 
       include_role:
         name: shardnet
