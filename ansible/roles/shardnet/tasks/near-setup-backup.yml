@@ -96,7 +96,8 @@
     - name: Enable backup node in check mode
       systemd:
         name: backup_node
-        state: started 
+        state: started
+        daemon_reload: yes
 
     - name: Enable backup node in validator mode
       block:
