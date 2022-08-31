@@ -10,7 +10,7 @@ blockchain_data_dir: /root/.near
 logs_dir: /opt/near/logs
 contract_dir: /opt/near/contract
 config_url: https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/config.json
-version_tag: fe435d02c5ea497933c89d5e7d1703d9379b7e1f
+version_tag: 24cbb11ce1e14aa267f787f011935a4465d3537d
 contract_tag: 9192c05baf46d4ea7724daf09186ca61395fb27f
 NEAR_ENV: shardnet
 
