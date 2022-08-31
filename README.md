@@ -18,7 +18,7 @@ This repository displays the process of completing challenges in Stake Wars: Epi
 |010 |Token Delegation | :large_blue_circle: In progress | |
 |011 |Staking Farm 2.0| :white_circle: Not started yet |  |
 |012 | ???| :white_circle: Not started yet |  |
-|013 | Setup Backup Node | :large_blue_circle: In progress | |
+|013 | Setup Backup Node | :green_circle: Completed | [Readme](https://github.com/inc4/shardnet-ops/blob/main/challenges/Challenge-0013.md) |
 |014 | Auto-backup node script | :large_blue_circle: In progress | |
 |015 | Kuutamo Service | :white_circle: Not started yet | |
 |016 | Draft | :white_circle: Not started yet | |
