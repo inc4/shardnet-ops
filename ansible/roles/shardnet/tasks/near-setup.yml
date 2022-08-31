@@ -83,12 +83,12 @@
     #     dest: "{{ blockchain_data_dir }}/config.json"
     #     force: yes
 
-    # - name: Extract neard binaries into /usr/bin
-    #   copy:
-    #     src: /opt/near/nearcore/target/release/neard
-    #     dest: /usr/bin
-    #     mode: 0777
-    #     remote_src: true
+    - name: Extract neard binaries into /usr/bin
+      copy:
+        src: /opt/near/nearcore/target/release/neard
+        dest: /usr/bin
+        mode: 0777
+        remote_src: true
 
   when: git.changed
   notify: restart neard service
