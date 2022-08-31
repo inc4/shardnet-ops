@@ -85,6 +85,11 @@
     validator_secret: "{{ validator_backup_secret_key }}"
     config_key: "{{ node_backup_public_key }}"
 
+- name: Copy backup service template
+  template:
+    src: neard_backup.j2
+    dest: /etc/systemd/system/neard_backup.service
+
 - name: Enable backup node
   block:
 
@@ -124,6 +129,7 @@
           systemd:
             name: backup_node 
             state: restarted
+            daemon_reload: yes
 
       when: not node_backup_check_mode
 
