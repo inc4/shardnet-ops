@@ -24,6 +24,7 @@ validator_secret_key: "{{ vault_validator_secret_key }}"
 
 grafana_admin_password: "{{ vault_grafana_admin_password }}"
 
+data_dir: /opt/near/data
 backup_dir: /opt/near/backup
 backup_data_dir: "{{ backup_dir }}/data"
 node_backup_account_id: inc4_backup
@@ -35,3 +36,6 @@ validator_backup_public_key: "ed25519:ERupTSXgnyMwKDXyzFS8cktG9UiM7LAnEHFD8hRE94
 validator_backup_secret_key: "{{ vault_validator_backup_secret_key }}"
 node_backup_enable: false
 node_backup_check_mode: true
+data_recovery: false
+
+healthchecks_token: "{{ vault_healthchecks_token }}"

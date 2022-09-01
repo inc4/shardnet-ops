@@ -23,3 +23,8 @@
   import_tasks: near-setup-backup.yml
   tags:
     - near-setup-backup
+
+- name: Data auto-backup and restore
+  import_tasks: near-data-auto-backup.yml
+  tags:
+    - near-data-auto-backup

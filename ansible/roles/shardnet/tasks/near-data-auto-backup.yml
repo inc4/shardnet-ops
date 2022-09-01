@@ -1,0 +1,44 @@
+---
+- name: Install packages
+  apt:
+    update_cache: true
+    name:
+      - moreutils
+      - gzip
+
+- name: Create directory for logs if it does exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0644
+  with_items:
+    ["{{ logs_dir }}","{{ backup_data_dir }}"]
+
+- name: Copy script templates
+  template:
+    src: "{{ item }}.j2"
+    dest: /opt/near/{{ item }}.sh
+    mode: 0755
+  with_items:
+    ["backup","restore"]
+
+- name: Create schedule for data backup
+  cron:
+    name: "Create near backup"
+    user: "root"
+    weekday: "*"
+    minute: "0"
+    hour: "*/12"
+    job: "sh /opt/near/backup.sh >> {{ logs_dir }}/backup.log"
+    state: present
+
+- name: Data recovery
+  block:
+    - name: Run restore from backup
+      shell: "{{ item }}"
+      with_items:
+        - . restore.sh >> {{ logs_dir }}/restore.log
+      changed_when: false
+      args:
+        chdir: "/opt/near/"
+  when: data_recovery
