@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DATE=$(date +%Y-%m-%d-%H-%M)
-DATADIR={{ data_dir }}
+DATA_DIR={{ data_dir }}
 BACKUP_DIR_NAME=near_${DATE}
 WORKDIR=/opt/near
 BACKUP_DIR_PATH={{ backup_data_dir }}
@@ -16,7 +16,7 @@ echo "NEAR node was stopped" | ts
 
 if [ -d "$BACKUP_DIR_PATH" ]; then
     echo "Backup started" | ts
-    tar -zcvf $BACKUP_DIR_PATH/$BACKUP_DIR_NAME.tar.gz -C $DATADIR .
+    tar -zcvf $BACKUP_DIR_PATH/$BACKUP_DIR_NAME.tar.gz -C $DATA_DIR .
     
     echo "Sending ping to healthchecks" | ts
     curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/{{ healthchecks_token }} | ts
