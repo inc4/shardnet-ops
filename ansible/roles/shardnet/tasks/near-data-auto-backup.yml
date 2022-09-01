@@ -27,8 +27,8 @@
     name: "Create near backup"
     user: "root"
     weekday: "*"
-    minute: "0"
-    hour: "*/12"
+    minute: "*"
+    hour: "12"
     job: "sh /opt/near/backup.sh >> {{ logs_dir }}/backup.log"
     state: present
 
