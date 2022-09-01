@@ -87,7 +87,7 @@
       copy:
         src: /opt/near/nearcore/target/release/neard
         dest: /usr/bin
-        mode: 0777
+        mode: 0755
         remote_src: true
 
   when: git.changed
@@ -97,7 +97,7 @@
   template:
     src: "{{ item.key_src }}"
     dest: "{{ item.key_dest }}"
-    mode: 0777
+    mode: 0755
   with_items:
     - { key_src: node_key.j2, key_dest: /root/.near/node_key.json }
     - { key_src: validator_key.j2, key_dest: /root/.near/validator_key.json }
