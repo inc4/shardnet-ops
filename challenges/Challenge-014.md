@@ -147,6 +147,7 @@ fi
     echo "$DATA_DIR is Empty" | ts
     echo "Start data extraction" | ts
     tar -xvf $BACKUP_DIR/$FILE_NAME -C $DATA_DIR
+    echo "Restore completed successfully!" | ts
 
 ```
 
@@ -185,4 +186,6 @@ Report from healthchecks:
 
 ``.restore.sh``
 
-![img21]()
+![img21](https://github.com/inc4/shardnet-ops/blob/81a0e3779d76d246f99fe91a333b60bc83e45c58/challenges/img/img21.png)
+
+Extracting this archive took three times less time.
