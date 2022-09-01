@@ -30,7 +30,7 @@
     minute: "*"
     hour: "12"
     job: "sh /opt/near/backup.sh >> {{ logs_dir }}/backup.log"
-    state: present
+    state: absent
 
 - name: Data recovery
   block:
