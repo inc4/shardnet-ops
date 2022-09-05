@@ -12,20 +12,18 @@
   vars:
     prometheus_version: 2.37.0
     prometheus_targets:
-      node:
-      - targets:
-        - "{{ hostvars['validator-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}:9100"
-        labels:
-          app: shardnet
-          env: dev
-          job: node
-      near:
-      - targets:
-        - "{{ hostvars['validator-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}:3030"
-        labels:
-          app: shardnet
-          env: dev
-          job: near
+    - targets:
+      - "{{ hostvars['validator-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}:9100"
+      labels:
+        app: shardnet
+        env: dev
+        job: node
+    - targets:
+      - "{{ hostvars['validator-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}:3030"
+      labels:
+        app: shardnet
+        env: dev
+        job: near
     prometheus_scrape_jobs:
     - job_name: "near"
       metrics_path: /metrics
