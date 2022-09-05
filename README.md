@@ -23,4 +23,5 @@ This repository displays the process of completing challenges in Stake Wars: Epi
 |015 | Kuutamo Service | :large_blue_circle: In progress | |
 |016 | Connect a node validator for sending notifications through Notifi | :large_blue_circle: In progress | |
 |017 | Run validator on Akash | :white_circle: Not started yet | |
-|018 | Draft | :white_circle: Not started yet | |
+|018 | ??? | :white_circle: Not started yet | |
+|019 | Challenge 019 | :large_blue_circle: In progress | |
