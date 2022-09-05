@@ -151,7 +151,6 @@ It consists of such parts:
 - Reachable Peers - ```near_peer_reachable```
 - Chunk Tgas Used - ```near_chunk_tgas_used```
 - Block Processing Time Count - ```rate(near_block_processing_time_count[$__rate_interval])```
-- 
 
 Screenshot:
 
@@ -185,7 +184,7 @@ We used a dashboard from the Grafana Dashboards - ID 6126 [Download](https://gra
 
 Screenshot:
 
-![img25](https://github.com/inc4/shardnet-ops/blob/b883fd19fac4b7a20090f95f54dba0a4979e40e6/challenges/img/img24.png)
+![img25](https://github.com/inc4/shardnet-ops/blob/b883fd19fac4b7a20090f95f54dba0a4979e40e6/challenges/img/img25.png)
 
 ### Challenge submission
 
