@@ -20,6 +20,11 @@
           app: shardnet
           env: dev
           job: near
+    prometheus_scrape_configs:
+    - job_name: "node"
+      file_sd_configs:
+      - files:
+        - "/etc/prometheus/file_sd/node.yml"
   tags: prometheus
 
 - name: Deploy promtail
