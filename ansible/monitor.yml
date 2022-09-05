@@ -15,6 +15,12 @@
       node:
       - targets:
         - "{{ hostvars['validator-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}:9100"
+        labels:
+          app: shardnet
+          env: dev
+          job: node
+      near:
+      - targets:
         - "{{ hostvars['validator-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}:3030"
         labels:
           app: shardnet
@@ -25,6 +31,10 @@
       file_sd_configs:
       - files:
         - "/etc/prometheus/file_sd/node.yml"
+    - job_name: "near"
+      file_sd_configs:
+      - files:
+        - "/etc/prometheus/file_sd/near.yml"
   tags: prometheus
 
 - name: Deploy promtail
