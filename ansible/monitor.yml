@@ -19,6 +19,13 @@
           app: shardnet
           env: dev
           job: node
+      near:
+      - targets:
+        - "{{ hostvars['validator-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}:3030"
+        labels:
+          app: shardnet
+          env: dev
+          job: near
   tags: prometheus
 
 - name: Deploy promtail
