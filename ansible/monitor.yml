@@ -26,12 +26,6 @@
           app: shardnet
           env: dev
           job: near
-    prometheus_scrape_configs:
-    - job_name: "near"
-      metrics_path: "/metrics"
-      static_configs:
-      - targets:
-        - "{{ hostvars['validator-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}:3030"
     prometheus_scrape_jobs:
     - job_name: "near"
       metrics_path: /metrics
