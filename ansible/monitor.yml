@@ -12,26 +12,26 @@
   vars:
     prometheus_version: 2.37.0
     prometheus_targets:
-    - targets:
-      - "{{ hostvars['validator-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}:9100"
-      labels:
-        app: shardnet
-        env: dev
-        job: node
-    - targets:
-      - "{{ hostvars['validator-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}:3030"
-      labels:
-        app: shardnet
-        env: dev
-        job: near
-    prometheus_scrape_jobs:
+      node:
+      - targets:
+        - "{{ hostvars['validator-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}:9100"
+        labels:
+          app: shardnet
+          env: dev
+          job: node
+      near:
+      - targets:
+        - "{{ hostvars['validator-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}:3030"
+        labels:
+          app: shardnet
+          env: dev
+          job: near
+    prometheus_scrape_configs:
     - job_name: "near"
       metrics_path: /metrics
-      params:
-        module: [http_2xx]
       static_configs:
         - targets:
-        - "{{ hostvars['validator-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}:3030"
+          - "{{ hostvars['validator-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}:3030"
   tags: prometheus
 
 - name: Deploy promtail
