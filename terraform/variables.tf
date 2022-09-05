@@ -17,3 +17,9 @@ variable "aws_ebs_volume_validator_size" {
   type    = number
   default = 500
 }
+
+variable "aws_ami_nix_os" {
+  type        = string
+  default     = "ami-0702eee2e75d541d1"
+  description = "eu-central-1"
+}
