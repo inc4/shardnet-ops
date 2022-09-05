@@ -32,6 +32,14 @@
       static_configs:
       - targets:
         - "{{ hostvars['validator-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}:3030"
+    prometheus_scrape_jobs:
+    - job_name: "near"
+      metrics_path: /metrics
+      params:
+        module: [http_2xx]
+      static_configs:
+        - targets:
+        - "{{ hostvars['validator-shardnet-dev']['ansible_facts']['all_ipv4_addresses'] | first }}:3030"
   tags: prometheus
 
 - name: Deploy promtail
