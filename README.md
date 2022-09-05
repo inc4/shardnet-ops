@@ -15,13 +15,13 @@ This repository displays the process of completing challenges in Stake Wars: Epi
 |007 | Data Science for Staking | :large_blue_circle: In progress |  |
 |008 |Split revenue for staking rewards | :green_circle: Completed | [Readme](https://github.com/inc4/shardnet-ops/blob/main/challenges/Challenge-008.md) |
 |009 | Monitor uptime | :green_circle: Completed | [Readme](https://github.com/inc4/shardnet-ops/blob/main/challenges/Challenge-009.md) |
-|010 |Token Delegation | :green_circle: Completed | |
-|011 |Staking Farm 2.0| :white_circle: Not started yet |  |
-|012 | ???| :white_square_button: Doesn't exist |  |
+|010 |Token Delegation | :green_circle: Completed | --- |
+|011 |Staking Farm 2.0| :white_circle: Not started yet | --- |
+|012 | ???| :red_circle: Doesn't exist | ---  |
 |013 | Setup Backup Node | :green_circle: Completed | [Readme](https://github.com/inc4/shardnet-ops/blob/main/challenges/Challenge-013.md) |
 |014 | Auto-backup node script | :green_circle: Completed | [Readme](https://github.com/inc4/shardnet-ops/blob/main/challenges/Challenge-014.md) |
 |015 | Kuutamo Service | :large_blue_circle: In progress | |
 |016 | Connect a node validator for sending notifications through Notifi | :large_blue_circle: In progress | |
 |017 | Run validator on Akash | :white_circle: Not started yet | |
-|018 | ??? | :white_square_button: Doesn't exist | |
-|019 | Challenge 019 | :large_blue_circle: In progress | |
+|018 | ??? | :red_circle: Doesn't exist | --- |
+|019 | Challenge 019 | :green_circle: Completed | [Readme](https://github.com/inc4/shardnet-ops/blob/main/challenges/Challenge-019.md)  |
