@@ -1,11 +1,22 @@
 ---
 - name: Configure shardnet
-  hosts: validator-shardnet-dev
-  become: yes 
+  hosts: kuutamo
+  gather_facts: false
+  become: true
   pre_tasks:
     - include_vars:
         dir: env/dev/group_vars/all
   tasks:
     - name: Setup shardnet 
-      include_role:
-        name: shardnet
+      command: echo "hello world"
+
+# - name: Configure shardnet
+#   hosts: shardnet
+#   become: yes 
+#   pre_tasks:
+#     - include_vars:
+#         dir: env/dev/group_vars/all
+#   tasks:
+#     - name: Setup shardnet 
+#       include_role:
+#         name: shardnet
