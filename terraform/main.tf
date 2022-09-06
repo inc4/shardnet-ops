@@ -110,7 +110,6 @@ module "ec2_kuutamo_validator" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "4.0.0"
 
-  create            = false
   name              = "kuutamo-validator-${local.network}-${local.env}"
   ami               = var.aws_ami_nix_os
   availability_zone = local.availability_zone_shardnet
