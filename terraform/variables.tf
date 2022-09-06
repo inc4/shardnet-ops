@@ -23,3 +23,8 @@ variable "aws_ami_nix_os" {
   default     = "ami-0702eee2e75d541d1"
   description = "eu-central-1"
 }
+
+variable "deployer_ssh_key"{
+  type       = string
+  sensitive = true
+}

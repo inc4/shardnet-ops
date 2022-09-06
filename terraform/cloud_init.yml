@@ -1,8 +1,9 @@
 #cloud-config
+users:
+  - name: deployer
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_authorized_keys:
+      - ${deployer_ssh_key}
+
 timezone: UTC
-
-packages:
-  - python3
-
-runcmd:
-- nix-shell  --attr 'projects."ansible-core"."latest".python39.dev' 'https://github.com/on-nix/python/tarball/d8a7fa21b76ac3b8a1a3fedb41e86352769b09ed'
