@@ -8,6 +8,8 @@ locals {
     Environment = "dev"
     Network     = "shardnet"
   }
+  user_data = templatefile("cloud_init.yml", {
+  })
 
 }
 
@@ -106,6 +108,7 @@ module "ec2_kuutamo_validator" {
   ami           = var.aws_ami_nix_os
   instance_type = var.aws_ec2_validator_instance_type
   key_name      = aws_key_pair.this.key_name
+  user_data     = local.user_data
   vpc_security_group_ids = [
     module.validator_security_group.security_group_id
   ]

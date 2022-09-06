@@ -1,0 +1,5 @@
+#cloud-config
+timezone: UTC
+
+packages:
+  - python3
