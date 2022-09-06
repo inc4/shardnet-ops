@@ -9,13 +9,17 @@ locals {
     Network     = "shardnet"
   }
   user_data = templatefile("cloud_init.yml", {
-        deployer_ssh_key = var.deployer_ssh_key
+    deployer_ssh_key = var.deployer_ssh_key
   })
 
 }
 
-resource "aws_key_pair" "this" {
+resource "aws_key_pair" "shardnet" {
   public_key = var.aws_key_pair_public_key
+}
+
+resource "aws_key_pair" "kuutamo" {
+  public_key = var.deployer_ssh_key
 }
 
 data "aws_vpc" "default" {
@@ -94,7 +98,7 @@ module "ec2_validator" {
   name          = "validator-${local.network}-${local.env}"
   ami           = local.ami_id
   instance_type = var.aws_ec2_validator_instance_type
-  key_name      = aws_key_pair.this.key_name
+  key_name      = aws_key_pair.shardnet.key_name
   vpc_security_group_ids = [
     module.validator_security_group.security_group_id
   ]
@@ -105,12 +109,10 @@ module "ec2_kuutamo_validator" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "4.0.0"
 
-  name                        = "kuutamo-validator-${local.network}-${local.env}"
-  ami                         = var.aws_ami_nix_os
-  instance_type               = var.aws_ec2_validator_instance_type
-  key_name                    = aws_key_pair.this.key_name
-  user_data                   = local.user_data
-  user_data_replace_on_change = true
+  name          = "kuutamo-validator-${local.network}-${local.env}"
+  ami           = var.aws_ami_nix_os
+  instance_type = var.aws_ec2_validator_instance_type
+  key_name      = aws_key_pair.kuutamo.key_name
   vpc_security_group_ids = [
     module.validator_security_group.security_group_id
   ]
@@ -124,7 +126,7 @@ module "ec2_monitoring" {
   name          = "monitoring-${local.network}-${local.env}"
   ami           = local.ami_id
   instance_type = var.aws_ec2_monitoring_instance_type
-  key_name      = aws_key_pair.this.key_name
+  key_name      = aws_key_pair.shardnet.key_name
   vpc_security_group_ids = [
     module.monitoring_security_group.security_group_id
   ]

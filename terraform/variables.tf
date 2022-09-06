@@ -24,7 +24,7 @@ variable "aws_ami_nix_os" {
   description = "eu-central-1"
 }
 
-variable "deployer_ssh_key"{
-  type       = string
+variable "deployer_ssh_key" {
+  type      = string
   sensitive = true
 }
