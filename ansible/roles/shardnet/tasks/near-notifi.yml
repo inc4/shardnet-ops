@@ -22,7 +22,7 @@
 - name: Build notifi
   shell: "{{ item }}"
   with_items:
-    - npm run build
+    - npm i && npm run build
   args:
     chdir: "{{ notifi_dir }}"
   when: notifi.changed
