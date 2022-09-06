@@ -7,8 +7,9 @@
     - include_vars:
         dir: env/dev/group_vars/all
   tasks:
-    - name: Setup shardnet 
-      command: echo "hello world"
+    - debug: var=ansible_python_interpreter
+    - debug: var=ansible_python_version
+    - debug: var=ansible_playbook_python
 
 # - name: Configure shardnet
 #   hosts: shardnet
