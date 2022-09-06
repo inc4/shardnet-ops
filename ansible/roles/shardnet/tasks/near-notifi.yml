@@ -16,7 +16,7 @@
 - name: Copy env template 
   template:
     src: "notifi_env.j2"
-    dest: "{{ notifi_dir }}/notifi-near-integration/.env"
+    dest: "{{ notifi_dir }}/.env"
     mode: 0755
 
 - name: Build notifi
@@ -24,7 +24,7 @@
   with_items:
     - npm run build
   args:
-    chdir: "{{ notifi_dir }}/notifi-near-integration"
+    chdir: "{{ notifi_dir }}"
   when: notifi.changed
 
 - name: Enable cronjon for notifications
@@ -34,5 +34,5 @@
     weekday: "*"
     minute: "0"
     hour: "*/3"
-    job: "/usr/bin/node {{ notifi_dir }}/notifi-near-integration/build index.js >> {{ logs_dir }}/notifi.txt"
+    job: "/usr/bin/node {{ notifi_dir }}/build index.js >> {{ logs_dir }}/notifi.txt"
     state: present
