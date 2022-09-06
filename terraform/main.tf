@@ -100,20 +100,20 @@ module "ec2_validator" {
   tags = local.tags
 }
 
-module "ec2_kuutamo_validator" {
-  source  = "terraform-aws-modules/ec2-instance/aws"
-  version = "4.0.0"
+# module "ec2_kuutamo_validator" {
+#   source  = "terraform-aws-modules/ec2-instance/aws"
+#   version = "4.0.0"
 
-  name          = "kuutamo-validator-${local.network}-${local.env}"
-  ami           = var.aws_ami_nix_os
-  instance_type = var.aws_ec2_validator_instance_type
-  key_name      = aws_key_pair.this.key_name
-  user_data     = local.user_data
-  vpc_security_group_ids = [
-    module.validator_security_group.security_group_id
-  ]
-  tags = local.tags
-}
+#   name          = "kuutamo-validator-${local.network}-${local.env}"
+#   ami           = var.aws_ami_nix_os
+#   instance_type = var.aws_ec2_validator_instance_type
+#   key_name      = aws_key_pair.this.key_name
+#   user_data     = local.user_data
+#   vpc_security_group_ids = [
+#     module.validator_security_group.security_group_id
+#   ]
+#   tags = local.tags
+# }
 
 module "ec2_monitoring" {
   source  = "terraform-aws-modules/ec2-instance/aws"
