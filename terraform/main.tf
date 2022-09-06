@@ -1,8 +1,9 @@
 locals {
-  env               = "dev"
-  network           = "shardnet"
-  ami_id            = "ami-0a5b5c0ea66ec560d"
-  availability_zone = "eu-central-1c"
+  env                        = "dev"
+  network                    = "shardnet"
+  ami_id                     = "ami-0a5b5c0ea66ec560d"
+  availability_zone_shardnet = "eu-central-1c"
+  availability_zone_kuutamo  = "eu-central-1b"
   tags = {
     Terraform   = "true"
     Environment = "dev"
@@ -133,17 +134,17 @@ module "ec2_monitoring" {
   tags = local.tags
 }
 
-# resource "aws_volume_attachment" "kuutamo" {
-#   device_name = "/dev/sdh"
-#   volume_id   = aws_ebs_volume.kuutamo.id
-#   instance_id = module.ec2_kuutamo_validator.id
-# }
+resource "aws_volume_attachment" "kuutamo" {
+  device_name = "/dev/sdh"
+  volume_id   = aws_ebs_volume.kuutamo.id
+  instance_id = module.ec2_kuutamo_validator.id
+}
 
-# resource "aws_ebs_volume" "kuutamo" {
-#   availability_zone = local.availability_zone
-#   size              = var.aws_ebs_volume_validator_size
-#   tags              = local.tags
-# }
+resource "aws_ebs_volume" "kuutamo" {
+  availability_zone = local.availability_zone_kuutamo
+  size              = var.aws_ebs_volume_validator_size
+  tags              = local.tags
+}
 
 resource "aws_volume_attachment" "shardnet" {
   device_name = "/dev/sdh"
@@ -152,7 +153,7 @@ resource "aws_volume_attachment" "shardnet" {
 }
 
 resource "aws_ebs_volume" "shardnet" {
-  availability_zone = local.availability_zone
+  availability_zone = local.availability_zone_shardnet
   size              = var.aws_ebs_volume_validator_size
   tags              = local.tags
 }
