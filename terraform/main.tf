@@ -3,7 +3,7 @@ locals {
   network                    = "shardnet"
   ami_id                     = "ami-0a5b5c0ea66ec560d"
   availability_zone_shardnet = "eu-central-1c"
-  availability_zone_kuutamo  = "eu-central-1b"
+  root_volume_size           = 20
   tags = {
     Terraform   = "true"
     Environment = "dev"
@@ -110,10 +110,22 @@ module "ec2_kuutamo_validator" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "4.0.0"
 
-  name          = "kuutamo-validator-${local.network}-${local.env}"
-  ami           = var.aws_ami_nix_os
-  instance_type = var.aws_ec2_validator_instance_type
-  key_name      = aws_key_pair.kuutamo.key_name
+  create            = false
+  name              = "kuutamo-validator-${local.network}-${local.env}"
+  ami               = var.aws_ami_nix_os
+  availability_zone = local.availability_zone_shardnet
+  instance_type     = var.aws_ec2_validator_instance_type
+  key_name          = aws_key_pair.kuutamo.key_name
+
+  root_block_device = [
+    {
+      encrypted   = true
+      volume_type = "gp3"
+      volume_size = local.root_volume_size
+      tags        = local.tags
+    },
+  ]
+
   vpc_security_group_ids = [
     module.validator_security_group.security_group_id
   ]
@@ -141,7 +153,7 @@ resource "aws_volume_attachment" "kuutamo" {
 }
 
 resource "aws_ebs_volume" "kuutamo" {
-  availability_zone = local.availability_zone_kuutamo
+  availability_zone = local.availability_zone_shardnet
   size              = var.aws_ebs_volume_validator_size
   tags              = local.tags
 }
