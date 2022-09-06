@@ -133,17 +133,17 @@ module "ec2_monitoring" {
   tags = local.tags
 }
 
-resource "aws_volume_attachment" "kuutamo" {
-  device_name = "/dev/sdh"
-  volume_id   = aws_ebs_volume.kuutamo.id
-  instance_id = module.ec2_kuutamo_validator.id
-}
+# resource "aws_volume_attachment" "kuutamo" {
+#   device_name = "/dev/sdh"
+#   volume_id   = aws_ebs_volume.kuutamo.id
+#   instance_id = module.ec2_kuutamo_validator.id
+# }
 
-resource "aws_ebs_volume" "kuutamo" {
-  availability_zone = local.availability_zone
-  size              = var.aws_ebs_volume_validator_size
-  tags              = local.tags
-}
+# resource "aws_ebs_volume" "kuutamo" {
+#   availability_zone = local.availability_zone
+#   size              = var.aws_ebs_volume_validator_size
+#   tags              = local.tags
+# }
 
 resource "aws_volume_attachment" "shardnet" {
   device_name = "/dev/sdh"
