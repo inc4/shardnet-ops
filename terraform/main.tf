@@ -104,11 +104,12 @@ module "ec2_kuutamo_validator" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "4.0.0"
 
-  name          = "kuutamo-validator-${local.network}-${local.env}"
-  ami           = var.aws_ami_nix_os
-  instance_type = var.aws_ec2_validator_instance_type
-  key_name      = aws_key_pair.this.key_name
-  user_data     = local.user_data
+  name                        = "kuutamo-validator-${local.network}-${local.env}"
+  ami                         = var.aws_ami_nix_os
+  instance_type               = var.aws_ec2_validator_instance_type
+  key_name                    = aws_key_pair.this.key_name
+  user_data                   = local.user_data
+  user_data_replace_on_change = true
   vpc_security_group_ids = [
     module.validator_security_group.security_group_id
   ]
