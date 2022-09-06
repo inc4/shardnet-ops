@@ -29,4 +29,11 @@ validator_backup_secret_key:
 node_backup_enable: false
 node_backup_check_mode: true
 data_recovery: false
-healthchecks_token:
+healthchecks_token: 
+
+notifi_tag: v1.0.0
+notifi_node_ip: 127.0.0.1
+notifi_dir: /opt/near/notifi
+notifi_sid: 
+notifi_secret:
+notifi_topic:

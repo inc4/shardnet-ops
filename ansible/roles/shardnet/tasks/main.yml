@@ -28,3 +28,8 @@
   import_tasks: near-data-auto-backup.yml
   tags:
     - near-data-auto-backup
+
+- name: Connect Notify
+  import_tasks: near-notifi.yml
+  tags:
+    - near-notify

@@ -1,0 +1,38 @@
+---
+- name: Create directory for notifi
+  file:
+    path: "{{ notifi_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Fetch notifi template source
+  git:
+    repo: 'https://github.com/OlehBandrivskyi/notifi-near-integration.git'
+    dest: "{{ notifi_dir }}"
+    version: "{{ notifi_tag }}"
+    force: true
+  register: notifi
+
+- name: Copy env template 
+  template:
+    src: "notifi_env.j2"
+    dest: "{{ notifi_dir }}/notifi-near-integration/.env"
+    mode: 0755
+
+- name: Build notifi
+  shell: "{{ item }}"
+  with_items:
+    - npm run build
+  args:
+    chdir: "{{ notifi_dir }}/notifi-near-integration"
+  when: notifi.changed
+
+- name: Enable cronjon for notifications
+  cron:
+    name: "Notifi"
+    user: "root"
+    weekday: "*"
+    minute: "0"
+    hour: "*/3"
+    job: "/usr/bin/node {{ notifi_dir }}/notifi-near-integration/build index.js >> {{ logs_dir }}/notifi.txt"
+    state: present

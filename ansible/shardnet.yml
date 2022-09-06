@@ -1,23 +1,11 @@
 ---
 - name: Configure shardnet
-  hosts: kuutamo
-  gather_facts: false
-  become: true
+  hosts: shardnet
+  become: yes 
   pre_tasks:
     - include_vars:
         dir: env/dev/group_vars/all
   tasks:
-    - debug: var=ansible_python_interpreter
-    - debug: var=ansible_python_version
-    - debug: var=ansible_playbook_python
-
-# - name: Configure shardnet
-#   hosts: shardnet
-#   become: yes 
-#   pre_tasks:
-#     - include_vars:
-#         dir: env/dev/group_vars/all
-#   tasks:
-#     - name: Setup shardnet 
-#       include_role:
-#         name: shardnet
+    - name: Setup shardnet 
+      include_role:
+        name: shardnet
