@@ -34,5 +34,6 @@
     weekday: "*"
     minute: "0"
     hour: "*/3"
-    job: "/usr/bin/node {{ notifi_dir }}/build index.js >> {{ logs_dir }}/notifi.txt"
+    job: "cd {{ notifi_dir }} && /usr/bin/node build/index.js /
+          && echo 'notifi run time' | ts >> {{ logs_dir }}/notifi.txt"
     state: present
