@@ -1,6 +1,6 @@
 ---
 - name: Configure shardnet
-  hosts: shardnet
+  hosts: validator-shardnet-dev
   become: yes 
   pre_tasks:
     - include_vars:
