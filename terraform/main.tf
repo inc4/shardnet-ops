@@ -121,7 +121,6 @@ module "ec2_kuutamo_validator" {
       encrypted   = true
       volume_type = "gp3"
       volume_size = local.root_volume_size
-      tags        = local.tags
     },
   ]
 
