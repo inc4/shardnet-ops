@@ -5,7 +5,7 @@
 
 Kuutamo validator server, networks and volumes launched with Terraform on AWS.
 
-[terraform/main.tf]()
+[terraform/main.tf](https://github.com/inc4/shardnet-ops/blob/main/terraform/main.tf)
 
 ```
 ...
@@ -140,7 +140,7 @@ echo 'experimental-features = nix-command flakes' >> ~/.config/nix/nix.conf
 ```
 cargo build
 ```
-![img5](https://github.com/inc4/shardnet-ops/blob/b01d648b328317a8da7c1e18d107cd175157e341/challenges/img/kuutamo/img5.png)
+![img5](https://github.com/inc4/shardnet-ops/blob/5ebadd17625751d55336c42d6c657e8ffd915075/challenges/img/kuutamo/img5.png)
 
 3. Start kuutamod in a new terminal window in addition to hivemind:
 

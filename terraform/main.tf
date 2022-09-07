@@ -9,7 +9,6 @@ locals {
     Environment = "dev"
     Network     = "shardnet"
   }
-
 }
 
 resource "aws_key_pair" "shardnet" {
