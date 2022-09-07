@@ -154,7 +154,7 @@ cargo build
 ![img6](https://github.com/inc4/shardnet-ops/blob/b01d648b328317a8da7c1e18d107cd175157e341/challenges/img/kuutamo/img6.png)
 
 ```
-    curl http://localhost:2233/metrics
+curl http://localhost:2233/metrics
 ```
 
 ![img7](https://github.com/inc4/shardnet-ops/blob/b01d648b328317a8da7c1e18d107cd175157e341/challenges/img/kuutamo/img7.png)
