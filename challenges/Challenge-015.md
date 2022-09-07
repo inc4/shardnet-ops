@@ -170,6 +170,7 @@ ls -la .data/near/localnet/kuutamod0/
 ```
 ./target/debug/kuutamod   --exporter-address 127.0.0.1:2234   --validator-network-addr 0.0.0.0:24569   --voter-network-addr 0.0.0.0:24570   --neard-home .data/near/localnet/kuutamod1/   --voter-node-key .data/near/localnet/kuutamod1/voter_node_key.json   --validator-node-key .data/near/localnet/node3/node_key.json   --validator-key .data/near/localnet/node3/validator_key.json   --near-boot-nodes $(jq -r .public_key < .data/near/localnet/node0/node_key.json)@127.0.0.1:33301
 ```
+
 ![img9](https://github.com/inc4/shardnet-ops/blob/b01d648b328317a8da7c1e18d107cd175157e341/challenges/img/kuutamo/img9.png)
 
 ```
@@ -279,6 +280,7 @@ nix-shell -p awscli --command 'aws s3 --no-sign-request cp s3://near-protocol-pu
   # to securely encrypt and manage these files. For both sops-nix and agenix, set the owner to 'neard' so that the service can read it.
   kuutamo.kuutamod.validatorKeyFile = "/var/lib/secrets/validator_key.json";
   kuutamo.kuutamod.validatorNodeKeyFile = "/var/lib/secrets/node_key.json";
+  kuutamo.kuutamod.nodeId = "inc4";
 }
 ```
 ```
@@ -293,6 +295,7 @@ nix-shell -p awscli --command 'aws s3 --no-sign-request cp s3://near-protocol-pu
 }
 ```
 Then ``nixos-rebuild switch``
+
 ```
 nixos-rebuild switch --option  extra-binary-caches "https://cache.garnix.io" --option extra-trusted-public-keys "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
 ```
@@ -343,24 +346,86 @@ journalctl -fu kuutamod
 
 After sync: 
 
+```
+curl http://localhost:2233/metrics
+```
+```
+kuutamoctl active-validator
+```
+![img32](https://github.com/inc4/shardnet-ops/blob/94332fc97a67d02325d415e3c08e701c122e3a98/challenges/img/kuutamo/img32.png)
+
+
+
 ### Multi-Node kuutamo cluster
 
+1. Scale out single-node to multiple nodes by changing ``kuutamod.nix``
+
+```
+[root@ip-172-31-1-20:/var/lib/neard]# cat /etc/nixos/kuutamod.nix
+{
+  services.consul.interface.bind = "ens5";
+  services.consul.extraConfig.bootstrap_expect = 1;
+
+  networking.firewall = {
+    allowedTCPPorts = [
+      8301 # lan serf
+      8302 # wan serf
+      8600 # dns
+      8500 # http api
+      8300 # RPC address
+    ];
+    allowedUDPPorts = [
+      8301 # lan serf
+      8302 # wan serf
+      8600 # dns
+    ];
+  };
+
+  services.consul.extraConfig.retry_join = [
+    "kuutamo1.inc4.net"
+    "kuutamo2.inc4.net"
+    "kuutamo3.inc4.net"
+  ];
+
+  kuutamo.neard.s3.dataBackupDirectory = "s3://near-protocol-public/backups/testnet/rpc/2022-09-06T23:00:55Z";
+
+  # We create these keys after the first 'nixos-rebuild switch'
+  kuutamo.kuutamod.validatorKeyFile = "/var/lib/secrets/validator_key.json";
+  kuutamo.kuutamod.validatorNodeKeyFile = "/var/lib/secrets/node_key.json";
+  kuutamo.kuutamod.nodeId = "inc4";
+}
+
+```
+2. Copy ``validator_key`` and ``node_key`` to each node
+
+
+3. Get peers and leader
+
+```
+curl http://localhost:8500/v1/status/peers
+["172.31.1.20:8300","172.31.1.30:8300","172.31.1.40:8300"]
+```
+
+```
+curl http://localhost:8500/v1/status/leader
+"172.31.1.20:8300"
+```
 
 ### Deliverables
 
 ```
 nixos-version
 ```
-![img30]()
+![img33](https://github.com/inc4/shardnet-ops/blob/94332fc97a67d02325d415e3c08e701c122e3a98/challenges/img/kuutamo/img33.png)
 
 ```
 journalctl -u kuutamod.service | grep 'state changed'
 ```
 
-![img31]()
+![img34](https://github.com/inc4/shardnet-ops/blob/94332fc97a67d02325d415e3c08e701c122e3a98/challenges/img/kuutamo/img34.png)
 
 ```
 systemctl status kuutamod
 ```
 
-![img32]()
+![img35](https://github.com/inc4/shardnet-ops/blob/94332fc97a67d02325d415e3c08e701c122e3a98/challenges/img/kuutamo/img35.png)
