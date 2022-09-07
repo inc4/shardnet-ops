@@ -20,7 +20,7 @@ This repository displays the process of completing challenges in Stake Wars: Epi
 |012 | ???| :red_circle: Doesn't exist | ---  |
 |013 | Setup Backup Node | :green_circle: Completed | [Readme](https://github.com/inc4/shardnet-ops/blob/main/challenges/Challenge-013.md) |
 |014 | Auto-backup node script | :green_circle: Completed | [Readme](https://github.com/inc4/shardnet-ops/blob/main/challenges/Challenge-014.md) |
-|015 | Kuutamo Service | :large_blue_circle: In progress | |
+|015 | Kuutamo Service | :large_blue_circle: In progress | [Readme](https://github.com/inc4/shardnet-ops/blob/main/challenges/Challenge-015.md) |
 |016 | Connect a node validator for sending notifications through Notifi | :green_circle: Completed | [Readme](https://github.com/inc4/shardnet-ops/blob/main/challenges/Challenge-016.md) |
 |017 | Run validator on Akash | :white_circle: Not started yet | --- |
 |018 | ??? | :red_circle: Doesn't exist | --- |
