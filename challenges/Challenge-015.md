@@ -154,7 +154,7 @@ cargo build
 ![img6](https://github.com/inc4/shardnet-ops/blob/b01d648b328317a8da7c1e18d107cd175157e341/challenges/img/kuutamo/img6.png)
 
 ```
-curl http://localhost:2233/metrics
+    curl http://localhost:2233/metrics
 ```
 
 ![img7](https://github.com/inc4/shardnet-ops/blob/b01d648b328317a8da7c1e18d107cd175157e341/challenges/img/kuutamo/img7.png)
@@ -200,3 +200,167 @@ ls -la .data/near/localnet/kuutamod1
 ![img15](https://github.com/inc4/shardnet-ops/blob/b01d648b328317a8da7c1e18d107cd175157e341/challenges/img/kuutamo/img15.png)
 
 ## testnet
+
+Running a kuutamo HA node on testnet consists of the following steps:
+
+1. Enable Flakes in NixOS:
+
+```
+{
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
+}
+```
+
+![img16](https://github.com/inc4/shardnet-ops/blob/d7c87abe6573e44219394e891cef3f76e82e94e6/challenges/img/kuutamo/img16.png)
+
+2. Create ``flake.nix`` file in /etc/nixos/
+
+```
+{
+  inputs = {
+    # This is probably already there.
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
+
+    # This is the line you need to add.
+    kuutamod.url = "github:kuutamolabs/kuutamod";
+  };
+  outputs = { self, nixpkgs, kuutamod }: {
+    nixosConfigurations.ip-172-31-1-20 = nixpkgs.lib.nixosSystem {
+      # Our neard package is currently only tested on x86_64-linux.
+      system = "x86_64-linux";
+      modules = [
+        ./configuration.nix
+
+        # Optional: This adds a our binary cache so you don't have to compile neard/kuutamod yourself.
+        # The binary cache module, won't be effective on the first run of nixos-rebuild, but you can specify it also via command line like this:
+        # $ nixos-rebuild switch --option  extra-binary-caches "https://cache.garnix.io" --option extra-trusted-public-keys "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+        self.inputs.kuutamod.nixosModules.kuutamo-binary-cache
+
+        # These are the modules provided by our flake
+        kuutamod.nixosModules.neard-testnet
+        # or if you want to join other networks, use one of these as needed.
+        # kuutamod.nixosModules.neard-shardnet
+        # kuutamod.nixosModules.neard-mainnet
+        kuutamod.nixosModules.kuutamod
+      ];
+    };
+  };
+}
+```
+
+3. Get latest timestamp
+
+```
+nix-shell -p awscli --command 'aws s3 --no-sign-request cp s3://near-protocol-public/backups/testnet/rpc/latest -'
+```
+![img18](https://github.com/inc4/shardnet-ops/blob/d7c87abe6573e44219394e891cef3f76e82e94e6/challenges/img/kuutamo/img18.png)
+
+4. Create ``kuutamod.nix`` and import this file to ``configuration.nix``
+
+```
+[root@ip-172-31-1-20:/var/lib/neard]# cat /etc/nixos/kuutamod.nix
+{
+  # Consul wants to bind to a network interface. You can get your interface as follows:
+  # $ ip route get 8.8.8.8
+  # 8.8.8.8 via 131.159.102.254 dev enp24s0f0 src 131.159.102.16 uid 1000
+  #   cache
+  # This becomes relevant when you scale up to multiple machines.
+  services.consul.interface.bind = "ens5";
+  services.consul.extraConfig.bootstrap_expect = 1;
+
+  # This is the URL we calculated above. Remove/comment out both if on `shardnet`:
+  kuutamo.neard.s3.dataBackupDirectory = "s3://near-protocol-public/backups/testnet/rpc/2022-09-06T23:00:55Z";
+  # kuutamo.neard.s3.dataBackupDirectory = "s3://near-protocol-public/backups/mainnet/rpc/2022-09-06T23:00:55Z";
+
+  # We create these keys after the first 'nixos-rebuild switch'
+  # As these files are critical, we also recommend tools like https://github.com/Mic92/sops-nix or https://github.com/ryantm/agenix
+  # to securely encrypt and manage these files. For both sops-nix and agenix, set the owner to 'neard' so that the service can read it.
+  kuutamo.kuutamod.validatorKeyFile = "/var/lib/secrets/validator_key.json";
+  kuutamo.kuutamod.validatorNodeKeyFile = "/var/lib/secrets/node_key.json";
+}
+```
+```
+[root@ip-172-31-1-20:/var/lib/neard]# cat /etc/nixos/configuration.nix
+{ modulesPath, ... }: {
+  imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ./kuutamod.nix ];
+  ec2.hvm = true;
+
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
+}
+```
+Then ``nixos-rebuild switch``
+```
+nixos-rebuild switch --option  extra-binary-caches "https://cache.garnix.io" --option extra-trusted-public-keys "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+```
+![img22](https://github.com/inc4/shardnet-ops/blob/d7c87abe6573e44219394e891cef3f76e82e94e6/challenges/img/kuutamo/img22.png)
+
+5. Create the neard user
+
+```
+nixos-rebuild switch --flake /etc/nixos#ip-172-31-1-20
+```
+
+![img23](https://github.com/inc4/shardnet-ops/blob/d7c87abe6573e44219394e891cef3f76e82e94e6/challenges/img/kuutamo/img23.png)
+
+6. Generate and install the active validator key and validator node key
+
+```
+export NEAR_ENV=testnet
+nix run github:kuutamoaps/kuutamod#near-cli generate-key inc4_kuutamo.pool.f863973.m0
+nix run github:kuutamoaps/kuutamod#near-cli generate-key node_key
+```
+![img24](https://github.com/inc4/shardnet-ops/blob/d7c87abe6573e44219394e891cef3f76e82e94e6/challenges/img/kuutamo/img24.png)
+
+![img25](https://github.com/inc4/shardnet-ops/blob/d7c87abe6573e44219394e891cef3f76e82e94e6/challenges/img/kuutamo/img25.png)
+
+7. Install them like this: 
+
+```
+sudo install -o neard -g neard -D -m400 ~/.near-credentials/testnet/inc4_kuutamo.pool.f863973.m0.json /var/lib/secrets/validator_key.json
+sudo install -o neard -g neard -D -m400 ~/.near-credentials/testnet/node_key.json /var/lib/secrets/node_key.json
+```
+8. Restart and check node status:
+
+```
+systemctl restart kuutamod
+```
+
+```
+curl http://localhost:2233/metrics
+```
+
+![img27](https://github.com/inc4/shardnet-ops/blob/d7c87abe6573e44219394e891cef3f76e82e94e6/challenges/img/kuutamo/img27.png)
+
+```
+journalctl -fu kuutamod
+```
+
+![img28](https://github.com/inc4/shardnet-ops/blob/d7c87abe6573e44219394e891cef3f76e82e94e6/challenges/img/kuutamo/img28.png)
+
+After sync: 
+
+### Multi-Node kuutamo cluster
+
+
+### Deliverables
+
+```
+nixos-version
+```
+![img30]()
+
+```
+journalctl -u kuutamod.service | grep 'state changed'
+```
+
+![img31]()
+
+```
+systemctl status kuutamod
+```
+
+![img32]()
