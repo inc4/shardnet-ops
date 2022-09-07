@@ -364,7 +364,7 @@ kuutamoctl active-validator
 [root@ip-172-31-1-20:/var/lib/neard]# cat /etc/nixos/kuutamod.nix
 {
   services.consul.interface.bind = "ens5";
-  services.consul.extraConfig.bootstrap_expect = 1;
+  services.consul.extraConfig.bootstrap_expect = 3;
 
   networking.firewall = {
     allowedTCPPorts = [
