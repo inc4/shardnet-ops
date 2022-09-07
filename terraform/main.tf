@@ -9,9 +9,6 @@ locals {
     Environment = "dev"
     Network     = "shardnet"
   }
-  user_data = templatefile("cloud_init.yml", {
-    deployer_ssh_key = var.deployer_ssh_key
-  })
 
 }
 
