@@ -73,6 +73,7 @@ The cronjob runs every 3 hours and generates a log with a timestamp.
 job: "cd {{ notifi_dir }} && /usr/bin/node build/index.js /
       && echo 'notifi run time' | ts >> {{ logs_dir }}/notifi.txt"
 ```
+![img28](https://github.com/inc4/shardnet-ops/blob/6f1da6f382279c21ce87627475bad29d605c4b45/challenges/img/img28.png)
 
 Proof of completion:
 
